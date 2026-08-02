@@ -1,0 +1,67 @@
+# patriziabellavia.it — robots.txt
+# Consenti tutti i crawler classici + crawler AI.
+# Generato da Report SEO & GEO (lug 2026).
+
+User-agent: *
+Allow: /
+
+# Crawler AI: autorizzazione esplicita richiesta dalla maggior parte dei motori generativi
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# Crawler Bing / Yandex / Naver (Baidu escluso: solo mercato cinese)
+User-agent: Bingbot
+Allow: /
+
+User-agent: MSNBot-Media
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+# Blocca solo aree private del progetto Hono
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+Sitemap: https://www.patriziabellavia.it/sitemap.xml
+Sitemap: https://www.patriziabellavia.it/blog-sitemap.xml
