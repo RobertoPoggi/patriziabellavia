@@ -626,7 +626,15 @@ async function loadBlog() {
 let quill = null
 
 function initQuill() {
-  if (quill) return
+  // Se Quill esiste già, distruggi e ricrea per evitare stato stale
+  if (quill) {
+    // Rimuovi toolbar e container generati da Quill, ricrea div pulito
+    const container = document.querySelector('#quill-editor').closest('.rounded-lg')
+    if (container) {
+      container.innerHTML = '<div id="quill-editor"></div>'
+    }
+    quill = null
+  }
   quill = new Quill('#quill-editor', {
     theme: 'snow',
     placeholder: 'Scrivi il testo dell\'articolo qui…',
@@ -643,14 +651,16 @@ function initQuill() {
 }
 
 document.getElementById('new-post-btn').addEventListener('click', () => {
-  initQuill()
   document.getElementById('blog-id').value = ''
   document.getElementById('blog-modal-title').textContent = 'Nuovo Articolo'
   document.getElementById('blog-form').reset()
   document.getElementById('blog-published').checked = true
-  quill.setContents([])
   openModal('blog-modal')
-  setTimeout(() => quill.focus(), 100)
+  initQuill()
+  setTimeout(() => {
+    quill.setContents([])
+    quill.focus()
+  }, 50)
 })
 
 document.getElementById('blog-title').addEventListener('input', e => {
@@ -672,15 +682,17 @@ async function editPost(id) {
   document.getElementById('blog-image').value    = p.image_url || ''
   document.getElementById('blog-imgpos').value   = p.image_position || 'top center'
   document.getElementById('blog-published').checked = !!p.published
-  // Apri il modal PRIMA di inizializzare/popolare Quill
-  // (Quill su elemento display:none non renderizza il contenuto)
+  // Apri il modal PRIMA di Quill: serve che il DOM sia visibile
   openModal('blog-modal')
   initQuill()
-  // Piccolo delay per assicurarsi che il modal sia visibile nel DOM
+  // Reset esplicito + carica contenuto dopo che il modal è nel DOM
   setTimeout(() => {
-    quill.clipboard.dangerouslyPasteHTML(p.content || '')
+    quill.setContents([])  // pulisce qualsiasi stato precedente
+    if (p.content && p.content.trim()) {
+      quill.clipboard.dangerouslyPasteHTML(p.content)
+    }
     quill.focus()
-  }, 50)
+  }, 80)
 }
 
 document.getElementById('blog-form').addEventListener('submit', async e => {
