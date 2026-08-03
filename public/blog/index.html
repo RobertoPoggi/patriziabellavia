@@ -178,50 +178,59 @@
       }
 
       function renderCard(p) {
-        const url = '/blog/article?slug=' + encodeURIComponent(p.slug)
-        const imgUrl = p.image_url
+        var url = '/blog/article?slug=' + encodeURIComponent(p.slug)
+        var imgUrl = p.image_url
           ? (p.image_url.includes('unsplash.com') && !p.image_url.includes('&w=')
               ? p.image_url.replace(/[?&]auto=format.*$/, '') + '?auto=format&fit=crop&w=600&q=75'
               : p.image_url)
           : 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=75'
-        const imgPos = p.image_position || 'center'
-        const abstract = p.abstract ? p.abstract.substring(0, 160) + (p.abstract.length > 160 ? '…' : '') : ''
-        const dateLabel = formatDate(p.published_at)
-        const rt = readingTime(p.content)
-        const cat = p.category ? p.category.replace(/&/g, '&amp;') : 'HR'
-        const title = p.title ? p.title.replace(/&/g, '&amp;').replace(/</g, '&lt;') : ''
+        var imgPos = p.image_position || 'center'
+        var rawAbstract = p.abstract ? p.abstract.substring(0, 160) + (p.abstract.length > 160 ? '\u2026' : '') : ''
+        var abstractHtml = rawAbstract ? '<p class="blog-card-abstract">' + rawAbstract.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</p>' : ''
+        var dateLabel = formatDate(p.published_at)
+        var rt = readingTime(p.content)
+        var cat = p.category ? p.category.replace(/&/g, '&amp;') : 'HR'
+        var title = p.title ? p.title.replace(/&/g, '&amp;').replace(/</g, '&lt;') : ''
+        var sep = dateLabel ? ' &middot; ' : ''
 
-        return `<article class="blog-card-new animate-on-scroll" data-animation="fadeInUp">
-          <a href="${url}" class="blog-card-img-link" aria-label="Leggi: ${title}">
-            <div class="blog-card-img" style="background-image:url('${imgUrl}');background-position:${imgPos};" role="img" aria-label="${title}"></div>
-            <div class="blog-card-category">${cat}</div>
-          </a>
-          <div class="blog-card-body">
-            <p class="blog-card-meta"><time>${dateLabel}</time>${dateLabel ? ' · ' : ''}${rt}</p>
-            <h2 class="blog-card-title"><a href="${url}">${title}</a></h2>
-            ${abstract ? `<p class="blog-card-abstract">${abstract.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</p>` : ''}
-            <a href="${url}" class="blog-card-cta">Leggi l'articolo <span aria-hidden="true">→</span></a>
-          </div>
-        </article>`
+        return '<article class="blog-card-new animate-on-scroll" data-animation="fadeInUp">'
+          + '<a href="' + url + '" class="blog-card-img-link" aria-label="Leggi: ' + title + '">'
+          + '<div class="blog-card-img" style="background-image:url(\'' + imgUrl + '\');background-position:' + imgPos + ';" role="img" aria-label="' + title + '"></div>'
+          + '<div class="blog-card-category">' + cat + '</div>'
+          + '</a>'
+          + '<div class="blog-card-body">'
+          + '<p class="blog-card-meta"><time>' + dateLabel + '</time>' + sep + rt + '</p>'
+          + '<h2 class="blog-card-title"><a href="' + url + '">' + title + '</a></h2>'
+          + abstractHtml
+          + '<a href="' + url + '" class="blog-card-cta">Leggi l\'articolo <span aria-hidden="true">\u2192</span></a>'
+          + '</div>'
+          + '</article>'
       }
 
-      fetch('/api/blog')
-        .then(r => r.json())
-        .then(data => {
-          const grid = document.getElementById('blog-grid')
-          const posts = data.posts || []
-          if (posts.length === 0) {
-            grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#888;">Nessun articolo pubblicato.</p>'
-            return
-          }
-          grid.innerHTML = posts.map(renderCard).join('')
-          // Reinizializza animazioni scroll se presenti
-          if (typeof window.initAnimations === 'function') window.initAnimations()
-        })
-        .catch(() => {
-          document.getElementById('blog-grid').innerHTML =
-            '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#c00;">Errore nel caricamento degli articoli.</p>'
-        })
+      function loadBlog() {
+        var grid = document.getElementById('blog-grid')
+        if (!grid) return
+        fetch('/api/blog')
+          .then(function(r) { return r.json() })
+          .then(function(data) {
+            var posts = data.posts || []
+            if (posts.length === 0) {
+              grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#888;">Nessun articolo pubblicato.</p>'
+              return
+            }
+            grid.innerHTML = posts.map(renderCard).join('')
+            if (typeof window.initAnimations === 'function') window.initAnimations()
+          })
+          .catch(function() {
+            grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#c00;">Errore nel caricamento degli articoli.</p>'
+          })
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadBlog)
+      } else {
+        loadBlog()
+      }
     })()
     </script>
 
