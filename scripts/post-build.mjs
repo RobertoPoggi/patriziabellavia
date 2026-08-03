@@ -42,7 +42,7 @@ const routes = {
     ...rootPages.map(p => `/${p}`),
     ...blogSlugs,
     '/images/*', '/static/*',
-    '/robots.txt', '/sitemap.xml', '/blog-sitemap.xml', '/llms.txt',
+    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt',
     '/privacy-policy', '/cookie-policy'
   ]
 }

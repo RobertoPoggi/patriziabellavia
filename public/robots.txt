@@ -144,5 +144,13 @@ Crawl-delay: 2
 # ========================================
 # SITEMAP
 # ========================================
+Sitemap: https://www.patriziabellavia.it/sitemap-index.xml
 Sitemap: https://www.patriziabellavia.it/sitemap.xml
 Sitemap: https://www.patriziabellavia.it/blog-sitemap.xml
+
+# ========================================
+# AI KNOWLEDGE FILES
+# ========================================
+# File ottimizzati per motori AI/LLM
+# https://www.patriziabellavia.it/llms.txt
+# https://www.patriziabellavia.it/ai.txt

@@ -1,41 +1,104 @@
-# Pagine root senza estensione → Content-Type HTML
+# ============================================================
+# _headers — Patrizia Bellavia patriziabellavia.pages.dev
+# Content-Type per pagine senza estensione + Cache-Control SEO
+# ============================================================
+
+# ── Pagine root senza estensione → Content-Type HTML ─────────
 /chi-sono
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /servizi
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /case-history
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /contatti
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /blog
   Content-Type: text/html; charset=utf-8
-
-# Articoli blog senza estensione
-/blog/assessment-soft-skill-cosa-come-quando
-  Content-Type: text/html; charset=utf-8
-/blog/clima-organizzativo-indici-survey-azioni
-  Content-Type: text/html; charset=utf-8
-/blog/coaching-executive-icf-quando-serve
-  Content-Type: text/html; charset=utf-8
-/blog/engagement-retention-cosa-misurare
-  Content-Type: text/html; charset=utf-8
-/blog/feedback-360-come-implementarlo
-  Content-Type: text/html; charset=utf-8
-/blog/hr-senior-advisor-vs-hr-director
-  Content-Type: text/html; charset=utf-8
-/blog/modelli-leadership-situazionale-transteorica
-  Content-Type: text/html; charset=utf-8
-/blog/onboarding-soft-skill-primi-90-giorni
-  Content-Type: text/html; charset=utf-8
-/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano
-  Content-Type: text/html; charset=utf-8
-/blog/performance-management-mbo-guida-pratica
-  Content-Type: text/html; charset=utf-8
-/blog/succession-planning-tavole-successione
-  Content-Type: text/html; charset=utf-8
-/blog/talent-review-come-condurla
-  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /privacy-policy
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400
 /cookie-policy
   Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+# ── Articoli blog senza estensione ────────────────────────────
+/blog/assessment-soft-skill-cosa-come-quando
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/clima-organizzativo-indici-survey-azioni
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/coaching-executive-icf-quando-serve
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/engagement-retention-cosa-misurare
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/feedback-360-come-implementarlo
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/hr-senior-advisor-vs-hr-director
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/modelli-leadership-situazionale-transteorica
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/onboarding-soft-skill-primi-90-giorni
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/performance-management-mbo-guida-pratica
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/succession-planning-tavole-successione
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/talent-review-come-condurla
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# ── SEO / AI files ─────────────────────────────────────────────
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+/sitemap-index.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+/blog-sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+  X-Robots-Tag: index, follow
+/ai.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+  X-Robots-Tag: index, follow
+
+# ── Immagini: cache lunga ──────────────────────────────────────
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ── CSS / JS: cache + immutable ───────────────────────────────
+/static/*.css
+  Cache-Control: public, max-age=31536000, immutable
+/static/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# ── Security headers globali ──────────────────────────────────
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

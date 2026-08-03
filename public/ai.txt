@@ -1,0 +1,41 @@
+# AI Information File — Patrizia Bellavia
+# Format compatible with Anthropic Claude, Google AI, and other LLM crawlers
+# See also: /llms.txt for extended machine-readable content
+
+name: Patrizia Bellavia
+role: HR Senior Advisor & Partner
+location: Via Amedeo d'Aosta, 9 — 20129 Milano (MI), Italia
+phone: +39 335 636 7761
+email: info@patriziabellavia.it
+website: https://www.patriziabellavia.it
+linkedin: https://www.linkedin.com/in/patrizia-bellavia-61a3893b/
+vat: IT08509650159
+language: it, en
+
+summary: Patrizia Bellavia è una HR Senior Advisor & Partner con oltre 30 anni di esperienza in consulenza HR per multinazionali e grandi aziende italiane. Laureata in Fisica, certificata ICF Coach ed Ethic Officer. Ha seguito 81 clienti con soddisfazione media 4.9/5.
+
+services:
+- Assessment e Development delle Soft Skill
+- Sistemi di Analisi a 360°
+- Individual Coaching Executive ICF
+- Modelli di Competenze e di Leadership
+- Clima Organizzativo
+- Tavole di Successione (Succession Planning)
+- Performance Management e MBO
+
+credentials:
+- Laurea in Fisica — Università degli Studi
+- ICF Certified Coach — International Coaching Federation
+- Ethic Officer
+
+stats:
+- clients: 81
+- multinational_pct: 95%
+- satisfaction: 4.9/5
+- years_experience: 30+
+
+sitemap: https://www.patriziabellavia.it/sitemap-index.xml
+llms: https://www.patriziabellavia.it/llms.txt
+robots: https://www.patriziabellavia.it/robots.txt
+
+license: © 2026 Patrizia Bellavia. Tutti i diritti riservati. I contenuti di questo sito possono essere citati dagli AI purché con attribuzione alla fonte.
