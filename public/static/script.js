@@ -104,6 +104,68 @@ function submitForm(event) {
   });
 }
 
+/* === BANNER COOKIE TECNICI ================================= */
+(function() {
+  var COOKIE_NAME = 'pb_cookie_ok';
+  var COOKIE_DAYS = 365;
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function setCookie(name, value, days) {
+    var expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) +
+      '; expires=' + expires + '; path=/; SameSite=Lax';
+  }
+
+  function showBanner() {
+    // Determina il percorso corretto per cookie-policy
+    var isInBlog = window.location.pathname.indexOf('/blog/') !== -1;
+    var cookiePolicyUrl = isInBlog ? '../cookie-policy' : '/cookie-policy';
+
+    var banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+    banner.setAttribute('role', 'alert');
+    banner.setAttribute('aria-live', 'polite');
+    banner.innerHTML =
+      '<div class="cookie-banner-inner">' +
+        '<p class="cookie-banner-text">' +
+          'Questo sito utilizza esclusivamente <strong>cookie tecnici</strong> necessari al funzionamento. ' +
+          'Non raccogliamo dati di profilazione né usiamo cookie di terze parti. ' +
+          '<a href="' + cookiePolicyUrl + '">Maggiori informazioni</a>' +
+        '</p>' +
+        '<button id="cookie-accept" aria-label="Chiudi informativa cookie">Ho capito</button>' +
+      '</div>';
+    document.body.appendChild(banner);
+
+    // Mostra con leggera animazione
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        banner.classList.add('cookie-banner-visible');
+      });
+    });
+
+    document.getElementById('cookie-accept').addEventListener('click', function() {
+      setCookie(COOKIE_NAME, '1', COOKIE_DAYS);
+      banner.classList.remove('cookie-banner-visible');
+      setTimeout(function() {
+        if (banner.parentNode) banner.parentNode.removeChild(banner);
+      }, 400);
+    });
+  }
+
+  // Mostra solo se non già accettato
+  if (!getCookie(COOKIE_NAME)) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', showBanner);
+    } else {
+      showBanner();
+    }
+  }
+})();
+
 /* === INIT al caricamento DOM =============================== */
 document.addEventListener('DOMContentLoaded', function() {
 

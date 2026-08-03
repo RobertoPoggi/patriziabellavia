@@ -7,7 +7,7 @@ import path from 'path'
 const dist = 'dist'
 
 // ── 1. Copia pagine root senza estensione ───────────────────────────
-const rootPages = ['chi-sono', 'servizi', 'case-history', 'contatti']
+const rootPages = ['chi-sono', 'servizi', 'case-history', 'contatti', 'privacy-policy', 'cookie-policy']
 for (const page of rootPages) {
   const src = path.join(dist, `${page}.html`)
   const dst = path.join(dist, page)
@@ -42,7 +42,8 @@ const routes = {
     ...rootPages.map(p => `/${p}`),
     ...blogSlugs,
     '/images/*', '/static/*',
-    '/robots.txt', '/sitemap.xml', '/blog-sitemap.xml', '/llms.txt'
+    '/robots.txt', '/sitemap.xml', '/blog-sitemap.xml', '/llms.txt',
+    '/privacy-policy', '/cookie-policy'
   ]
 }
 fs.writeFileSync(path.join(dist, '_routes.json'), JSON.stringify(routes, null, 2))
