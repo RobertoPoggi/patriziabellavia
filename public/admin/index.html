@@ -842,18 +842,56 @@ async function deleteClient(id) {
  * Converte un tag HTML in testo leggibile pulito per il PDF.
  * Gestisce h1-h4, p, li, blockquote, br, strong, em, a.
  */
+/**
+ * Normalizza caratteri Unicode non gestiti da Helvetica built-in (cp1252).
+ * jsPDF misura i glyph con le metriche del font: se il carattere non esiste
+ * in Helvetica il suo width risulta 0 oppure sovrastimato, causando
+ * letter-spacing anomalo sulle righe che lo contengono.
+ */
+function pdfSanitize(str) {
+  if (!str) return ''
+  return str
+    .replace(/\u2014/g, '--')
+    .replace(/\u2013/g, '-')
+    .replace(/[\u2010\u2011\u2012]/g, '-')
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u00AB\u00BB]/g, '"')
+    .replace(/[\u2039\u203A]/g, "'")
+    .replace(/\u2026/g, '...')
+    .replace(/\u00B7/g, '.')
+    .replace(/[\u2022\u2023\u25E6\u2043]/g, '-')
+    .replace(/[\u00A0\u202F\u2009\u2008\u2007\u2006\u2005\u2004\u2003\u2002\u2001\u2000]/g, ' ')
+    .replace(/\u2192/g, '->')
+    .replace(/\u2190/g, '<-')
+    .replace(/\u2194/g, '<->')
+    .replace(/\u00D7/g, 'x')
+    .replace(/\u00F7/g, '/')
+    .replace(/[^\x00-\xFF]/g, '')
+}
+
 function htmlToLines(html) {
   if (!html) return []
-  // Normalizza <br> → newline
   let h = html.replace(/<br\s*\/?>/gi, '\n')
-  // Rimuovi tag di struttura mantenendo il testo
   h = h.replace(/<\/(p|h[1-6]|li|blockquote|div|tr)>/gi, '\n')
   h = h.replace(/<(hr)[^>]*>/gi, '\n---\n')
-  // Rimuovi tutti gli altri tag
   h = h.replace(/<[^>]+>/g, '')
-  // Decode entità HTML comuni
-  h = h.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ').replace(/&middot;/g, '·').replace(/&hellip;/g, '…').replace(/&laquo;/g, '«').replace(/&raquo;/g, '»')
-  // Rimuovi righe vuote consecutive
+  h = h.replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&middot;/g, '.')
+    .replace(/&hellip;/g, '...')
+    .replace(/&laquo;/g, '"')
+    .replace(/&raquo;/g, '"')
+    .replace(/&ndash;/g, '-')
+    .replace(/&mdash;/g, '--')
+    .replace(/&bull;/g, '-')
+    .replace(/&rarr;/g, '->')
+    .replace(/&times;/g, 'x')
+  h = pdfSanitize(h)
   return h.split('\n').map(l => l.trim()).filter((l, i, a) => l !== '' || a[i-1] !== '')
 }
 
@@ -890,7 +928,7 @@ function buildPostPDF(post) {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(13)
   doc.setTextColor(255, 255, 255)
-  doc.text('Patrizia Bellavia — HR Senior Advisor', marginL, 13)
+  doc.text('Patrizia Bellavia - HR Senior Advisor', marginL, 13)
   doc.setFontSize(9)
   doc.setFont('helvetica', 'normal')
   doc.text('patriziabellavia.pages.dev', marginL, 21)
@@ -908,15 +946,16 @@ function buildPostPDF(post) {
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(9)
     doc.setTextColor(74, 102, 112)
-    doc.text(post.category.toUpperCase(), marginL + 4, y)
+    doc.text(pdfSanitize(post.category).toUpperCase(), marginL + 4, y)
     y += 10
   }
 
   // ── Titolo ──
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(20)
+  doc.setCharSpace(0)
   doc.setTextColor(17, 24, 39)
-  const titleLines = doc.splitTextToSize(post.title || 'Senza titolo', contentW)
+  const titleLines = doc.splitTextToSize(pdfSanitize(post.title || 'Senza titolo'), contentW)
   titleLines.forEach(line => {
     if (y > 270) { doc.addPage(); y = 20 }
     doc.text(line, marginL, y)
@@ -924,12 +963,13 @@ function buildPostPDF(post) {
   })
   y += 3
 
-  // ── Meta: data + slug ──
+  // ── Meta: data ──
   const datePub = post.published_at
     ? new Date(post.published_at).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })
     : ''
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
+  doc.setCharSpace(0)
   doc.setTextColor(107, 114, 128)
   if (datePub) { doc.text(datePub, marginL, y); y += 6 }
 
@@ -941,12 +981,11 @@ function buildPostPDF(post) {
 
   // ── Abstract ──
   if (post.abstract) {
-    // IMPORTANTE: impostare font/size PRIMA di splitTextToSize
-    // per usare le metriche corrette nel calcolo dei wrap
     doc.setFont('helvetica', 'italic')
     doc.setFontSize(10)
     doc.setCharSpace(0)
-    const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
+    const abstractText = pdfSanitize(post.abstract)
+    const abstractLines = doc.splitTextToSize(abstractText, contentW - 8)
     const abstractH = abstractLines.length * 5.5 + 8
     doc.setFillColor(248, 250, 252)
     doc.roundedRect(marginL, y - 4, contentW, abstractH, 2, 2, 'F')
@@ -955,6 +994,7 @@ function buildPostPDF(post) {
     doc.line(marginL, y - 4, marginL, y - 4 + abstractH)
     doc.setTextColor(55, 65, 81)
     abstractLines.forEach(line => {
+      doc.setCharSpace(0)
       doc.text(line, marginL + 5, y)
       y += 5.5
     })
@@ -1081,10 +1121,12 @@ function buildAllPostsPDF(posts) {
     doc.rect(0, 0, pageW, 28, 'F')
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(13)
+    doc.setCharSpace(0)
     doc.setTextColor(255, 255, 255)
-    doc.text('Patrizia Bellavia — HR Senior Advisor', marginL, 13)
+    doc.text('Patrizia Bellavia - HR Senior Advisor', marginL, 13)
     doc.setFontSize(9)
     doc.setFont('helvetica', 'normal')
+    doc.setCharSpace(0)
     doc.text('patriziabellavia.pages.dev', marginL, 21)
     const articleUrl = 'patriziabellavia.pages.dev/blog/article?slug=' + (post.slug || '')
     doc.setFontSize(8)
@@ -1092,6 +1134,7 @@ function buildAllPostsPDF(posts) {
 
     // ── Indice articolo ──
     doc.setFontSize(8)
+    doc.setCharSpace(0)
     doc.setTextColor(200, 220, 228)
     doc.text('Articolo ' + (idx + 1) + ' di ' + posts.length, pageW - marginR, 13, { align: 'right' })
 
@@ -1102,18 +1145,21 @@ function buildAllPostsPDF(posts) {
       doc.roundedRect(marginL, y - 5, contentW, 9, 2, 2, 'F')
       doc.setFont('helvetica', 'bold')
       doc.setFontSize(9)
+      doc.setCharSpace(0)
       doc.setTextColor(74, 102, 112)
-      doc.text(post.category.toUpperCase(), marginL + 4, y)
+      doc.text(pdfSanitize(post.category).toUpperCase(), marginL + 4, y)
       y += 10
     }
 
     // ── Titolo ──
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(20)
+    doc.setCharSpace(0)
     doc.setTextColor(17, 24, 39)
-    const titleLines = doc.splitTextToSize(post.title || 'Senza titolo', contentW)
+    const titleLines = doc.splitTextToSize(pdfSanitize(post.title || 'Senza titolo'), contentW)
     titleLines.forEach(line => {
-      if (y > 270) { doc.addPage(); addFooterToCurrentPage(doc, pageW, pageH, marginL, marginR); y = 20 }
+      if (y > 270) { doc.addPage(); y = 20 }
+      doc.setCharSpace(0)
       doc.text(line, marginL, y)
       y += 9
     })
@@ -1125,6 +1171,7 @@ function buildAllPostsPDF(posts) {
       : ''
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(9)
+    doc.setCharSpace(0)
     doc.setTextColor(107, 114, 128)
     if (datePub) { if (y > 270) { doc.addPage(); y = 20 } doc.text(datePub, marginL, y); y += 6 }
 
@@ -1137,12 +1184,11 @@ function buildAllPostsPDF(posts) {
 
     // ── Abstract ──
     if (post.abstract) {
-      // IMPORTANTE: impostare font/size PRIMA di splitTextToSize
-      // per usare le metriche corrette nel calcolo dei wrap
       doc.setFont('helvetica', 'italic')
       doc.setFontSize(10)
       doc.setCharSpace(0)
-      const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
+      const abstractText = pdfSanitize(post.abstract)
+      const abstractLines = doc.splitTextToSize(abstractText, contentW - 8)
       const abstractH = abstractLines.length * 5.5 + 8
       if (y + abstractH > 275) { doc.addPage(); y = 20 }
       doc.setFillColor(248, 250, 252)
@@ -1153,6 +1199,7 @@ function buildAllPostsPDF(posts) {
       doc.setTextColor(55, 65, 81)
       abstractLines.forEach(line => {
         if (y > 270) { doc.addPage(); y = 20 }
+        doc.setCharSpace(0)
         doc.text(line, marginL + 5, y)
         y += 5.5
       })
