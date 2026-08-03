@@ -3,6 +3,7 @@ import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 import contactRoute from './routes/contact'
 import adminRoute from './routes/admin'
+import blogRoute from './routes/blog'
 
 type Bindings = {
   DB: D1Database
@@ -23,6 +24,7 @@ app.use('/api/*', cors({
 // Monta le route API
 app.route('/api/contact', contactRoute)
 app.route('/api/admin', adminRoute)
+app.route('/api/blog', blogRoute)
 
 // Serve il pannello admin (/admin/)
 app.use('/admin/*', serveStatic({ root: './' }))

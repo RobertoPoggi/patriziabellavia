@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title id="page-title">Articolo — Patrizia Bellavia</title>
+  <meta name="robots" content="index, follow">
+  <link rel="stylesheet" href="../static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../static/favicon.ico" sizes="32x32" type="image/x-icon">
+  <meta name="theme-color" content="#638290">
+  <style>
+    .article-content h2 { font-size:1.35rem; font-weight:700; color:#2d3748; margin:2rem 0 .75rem; }
+    .article-content h3 { font-size:1.1rem; font-weight:700; color:#2d3748; margin:1.5rem 0 .5rem; }
+    .article-content p  { margin-bottom:1rem; line-height:1.8; color:#444; }
+    .article-content ul, .article-content ol { padding-left:1.5rem; margin-bottom:1rem; }
+    .article-content li { margin-bottom:.4rem; line-height:1.7; color:#444; }
+    .article-content strong { color:#2d3748; font-weight:700; }
+    .article-content em { font-style:italic; }
+    .article-content blockquote { border-left:3px solid #638290; padding:.75rem 1rem; background:#f0f4f6; margin:1.5rem 0; border-radius:0 6px 6px 0; }
+    .article-content a { color:#638290; text-decoration:underline; }
+    #article-loading { text-align:center; padding:4rem 0; color:#888; }
+    #article-error   { text-align:center; padding:4rem 0; color:#c00; }
+  </style>
+</head>
+<body id="top">
+
+<header id="header">
+  <div class="header-wrapper"><div class="header-main"><div class="header-inner">
+    <div id="logo"><a href="../" title="PATRIZIA BELLAVIA - HR Senior Advisor">
+      <img src="../images/logo-pb.png" width="305" height="90" alt="PATRIZIA BELLAVIA"></a></div>
+    <nav><ul class="header-nav">
+      <li><a href="../chi-sono">CHI SONO</a></li>
+      <li><a href="../servizi">SERVIZI</a></li>
+      <li><a href="../case-history">CASE HISTORY</a></li>
+      <li><a href="../blog/">BLOG</a></li>
+      <li><a href="../contatti">CONTATTI</a></li>
+    </ul></nav>
+    <button class="mobile-menu-btn" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div></div></div>
+</header>
+<div id="mobile-menu"><button class="mobile-menu-close" id="mobile-close" aria-label="Chiudi menu">&#x2715;</button>
+  <ul class="mobile-nav-list">
+    <li><a href="../chi-sono">CHI SONO</a></li><li><a href="../servizi">SERVIZI</a></li>
+    <li><a href="../case-history">CASE HISTORY</a></li><li><a href="../blog/">BLOG</a></li>
+    <li><a href="../contatti">CONTATTI</a></li>
+  </ul>
+</div>
+
+<main id="main" class="blog-article">
+  <div id="article-loading">
+    <p style="font-size:1.1rem;">Caricamento articolo…</p>
+  </div>
+  <div id="article-error" style="display:none">
+    <p style="font-size:1.1rem;">Articolo non trovato.</p>
+    <p><a href="../blog/" style="color:#638290">← Torna al Blog</a></p>
+  </div>
+  <article class="article-wrapper" id="article-body" style="display:none">
+    <p class="article-meta">
+      <span id="art-category"></span>
+      · di <strong>Patrizia Bellavia</strong>,
+      <a href="../chi-sono">HR Senior Advisor Milano</a>
+    </p>
+    <h1 id="art-title"></h1>
+    <p class="article-intro" id="art-abstract"></p>
+
+    <!-- Immagine copertina -->
+    <div id="art-image-wrap" style="display:none; margin:1.5rem 0;">
+      <img id="art-image" src="" alt="" style="width:100%;border-radius:8px;max-height:420px;object-fit:cover;">
+    </div>
+
+    <!-- Contenuto articolo -->
+    <div class="article-content" id="art-content"></div>
+
+    <p style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;">
+      <a href="../blog/" style="color:#638290;font-weight:600;">← Torna al Blog</a>
+    </p>
+  </article>
+</main>
+
+<footer id="footer">
+  <div class="footer-wrapper">
+    <div class="footer-cols">
+      <div class="footer-col footer-col--brand">
+        <a href="../"><img src="../images/logo-pb-white.png" width="220" height="66" alt="PATRIZIA BELLAVIA" loading="lazy"></a>
+        <p>HR Senior Advisor &amp; Partner<br>Via Amedeo d'Aosta, 9<br>20129 Milano (MI)</p>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">LINK RAPIDI</h3>
+        <ul class="footer-list">
+          <li><a href="../chi-sono">Chi Sono</a></li>
+          <li><a href="../servizi">Servizi</a></li>
+          <li><a href="../case-history">Case History</a></li>
+          <li><a href="../blog/">Blog</a></li>
+          <li><a href="../contatti">Contatti</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">CONTATTI</h3>
+        <ul class="footer-list">
+          <li><a href="tel:+393356367761">+39 335 636 7761</a></li>
+          <li><a href="mailto:info@patriziabellavia.it">info@patriziabellavia.it</a></li>
+          <li><a href="https://www.linkedin.com/in/patrizia-bellavia-61a3893b/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Patrizia Bellavia — P.IVA IT08509650159</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../static/main.js" defer></script>
+<script>
+(function() {
+  // Ricava lo slug dall'URL: /blog/<slug> oppure /blog/<slug>/
+  const parts = window.location.pathname.replace(/\/$/, '').split('/')
+  const slug = parts[parts.length - 1]
+
+  if (!slug || slug === 'blog') {
+    window.location.href = '../blog/'
+    return
+  }
+
+  fetch('/api/blog/' + slug)
+    .then(r => r.json())
+    .then(post => {
+      if (post.error) {
+        document.getElementById('article-loading').style.display = 'none'
+        document.getElementById('article-error').style.display = 'block'
+        return
+      }
+
+      // Aggiorna <title> e meta
+      document.title = post.title + ' — Patrizia Bellavia'
+      document.getElementById('page-title').textContent = post.title + ' — Patrizia Bellavia'
+
+      // Popola i campi
+      document.getElementById('art-category').textContent  = post.category || ''
+      document.getElementById('art-title').textContent     = post.title    || ''
+      document.getElementById('art-abstract').textContent  = post.abstract || ''
+
+      // Immagine copertina
+      if (post.image_url) {
+        const img = document.getElementById('art-image')
+        img.src   = post.image_url
+        img.alt   = post.title
+        img.style.objectPosition = post.image_position || 'center'
+        document.getElementById('art-image-wrap').style.display = 'block'
+      }
+
+      // Contenuto: è HTML (da Quill) — va inserito con innerHTML in modo sicuro
+      const contentEl = document.getElementById('art-content')
+      contentEl.innerHTML = post.content || '<p><em>Contenuto non disponibile.</em></p>'
+
+      // Mostra articolo
+      document.getElementById('article-loading').style.display = 'none'
+      document.getElementById('article-body').style.display    = 'block'
+    })
+    .catch(() => {
+      document.getElementById('article-loading').style.display = 'none'
+      document.getElementById('article-error').style.display   = 'block'
+    })
+})()
+</script>
+</body>
+</html>

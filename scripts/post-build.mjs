@@ -19,7 +19,8 @@ for (const page of rootPages) {
 
 // ── 2. Copia articoli blog senza estensione ─────────────────────────
 const blogDir = path.join(dist, 'blog')
-const blogFiles = fs.readdirSync(blogDir).filter(f => f.endsWith('.html') && f !== 'index.html')
+// Escludi anche article.html che è un template dinamico, non un articolo statico
+const blogFiles = fs.readdirSync(blogDir).filter(f => f.endsWith('.html') && f !== 'index.html' && f !== 'article.html')
 const blogSlugs = []
 for (const file of blogFiles) {
   const slug = file.replace('.html', '')
@@ -42,6 +43,7 @@ const routes = {
     ...rootPages.map(p => `/${p}`),
     ...blogSlugs,
     '/images/*', '/static/*',
+    '/blog/article', '/blog/article.html',
     '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt',
     '/privacy-policy', '/cookie-policy'
   ]

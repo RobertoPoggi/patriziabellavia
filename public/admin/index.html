@@ -6,6 +6,9 @@
   <title>Admin — Patrizia Bellavia</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Quill WYSIWYG editor -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <style>
     [x-cloak] { display: none !important; }
     .sidebar-link.active { background: rgba(255,255,255,0.15); border-left: 3px solid #fff; }
@@ -13,10 +16,17 @@
     .badge-replied { background:#22c55e; } .badge-archived { background:#9ca3af; }
     .badge-active { background:#22c55e; } .badge-past { background:#6b7280; }
     .badge-prospect { background:#f59e0b; }
-    textarea.editor { font-family: monospace; font-size: 13px; }
     .toast { position:fixed; bottom:24px; right:24px; z-index:9999; padding:14px 20px; border-radius:8px; color:#fff; font-size:14px; box-shadow:0 4px 16px rgba(0,0,0,0.2); animation: slideIn 0.3s ease; }
     .toast.success { background:#22c55e; } .toast.error { background:#ef4444; }
     @keyframes slideIn { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+    /* Quill editor customization */
+    #quill-editor { min-height: 260px; font-size: 14px; font-family: inherit; }
+    .ql-toolbar { border-radius: 8px 8px 0 0 !important; border-color: #d1d5db !important; background: #f9fafb; }
+    .ql-container { border-radius: 0 0 8px 8px !important; border-color: #d1d5db !important; font-size: 14px; }
+    .ql-editor { min-height: 240px; line-height: 1.7; }
+    .ql-editor p { margin-bottom: 0.5rem; }
+    .ql-editor h2 { font-size: 1.2rem; font-weight: 700; margin: 1rem 0 0.4rem; }
+    .ql-editor h3 { font-size: 1.05rem; font-weight: 700; margin: 0.8rem 0 0.3rem; }
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -245,8 +255,11 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Contenuto articolo (HTML)</label>
-          <textarea id="blog-content" rows="8" class="editor w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]"></textarea>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Contenuto articolo</label>
+          <div class="rounded-lg overflow-hidden border border-gray-300">
+            <div id="quill-editor"></div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Scrivi il testo normalmente. Usa la barra in alto per grassetto, corsivo, titoli, elenchi e link.</p>
         </div>
         <div class="flex items-center gap-3">
           <input type="checkbox" id="blog-published" class="rounded" checked>
@@ -597,55 +610,85 @@ async function loadBlog() {
         <div class="text-xs text-gray-400 mt-1">${fmtDate(p.published_at)}</div>
       </div>
       <div class="flex gap-2 flex-shrink-0">
-        <button onclick="editPost(${p.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-edit"></i></button>
-        <button onclick="deletePost(${p.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-trash"></i></button>
+        <a href="/blog/article?slug=${p.slug}" target="_blank" class="text-gray-400 hover:bg-gray-100 px-3 py-1.5 rounded-lg text-xs transition" title="Visualizza articolo"><i class="fas fa-eye"></i></a>
+        <button onclick="editPost(${p.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition" title="Modifica"><i class="fas fa-edit"></i></button>
+        <button onclick="deletePost(${p.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition" title="Elimina"><i class="fas fa-trash"></i></button>
       </div>
     </div>
   `).join('')
 }
 
+// ─── Quill WYSIWYG init ─────────────────────────────────────────
+let quill = null
+
+function initQuill() {
+  if (quill) return
+  quill = new Quill('#quill-editor', {
+    theme: 'snow',
+    placeholder: 'Scrivi il testo dell\'articolo qui…',
+    modules: {
+      toolbar: [
+        [{ header: [2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['blockquote', 'link'],
+        ['clean']
+      ]
+    }
+  })
+}
+
 document.getElementById('new-post-btn').addEventListener('click', () => {
+  initQuill()
   document.getElementById('blog-id').value = ''
   document.getElementById('blog-modal-title').textContent = 'Nuovo Articolo'
   document.getElementById('blog-form').reset()
   document.getElementById('blog-published').checked = true
+  quill.setContents([])
   openModal('blog-modal')
+  setTimeout(() => quill.focus(), 100)
 })
 
 document.getElementById('blog-title').addEventListener('input', e => {
   if (!document.getElementById('blog-id').value) {
     document.getElementById('blog-slug').value = e.target.value
-      .toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
+      .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
   }
 })
 
 async function editPost(id) {
+  initQuill()
   const p = await api('/blog/' + id)
   document.getElementById('blog-id').value = p.id
   document.getElementById('blog-modal-title').textContent = 'Modifica Articolo'
-  document.getElementById('blog-title').value = p.title
-  document.getElementById('blog-slug').value = p.slug
+  document.getElementById('blog-title').value    = p.title
+  document.getElementById('blog-slug').value     = p.slug
   document.getElementById('blog-category').value = p.category
   document.getElementById('blog-abstract').value = p.abstract || ''
-  document.getElementById('blog-content').value = p.content || ''
-  document.getElementById('blog-image').value = p.image_url || ''
-  document.getElementById('blog-imgpos').value = p.image_position || 'top center'
+  document.getElementById('blog-image').value    = p.image_url || ''
+  document.getElementById('blog-imgpos').value   = p.image_position || 'top center'
   document.getElementById('blog-published').checked = !!p.published
+  // Carica contenuto HTML nell'editor Quill
+  quill.clipboard.dangerouslyPasteHTML(p.content || '')
   openModal('blog-modal')
+  setTimeout(() => quill.focus(), 100)
 }
 
 document.getElementById('blog-form').addEventListener('submit', async e => {
   e.preventDefault()
   const id = document.getElementById('blog-id').value
+  // Leggi HTML da Quill (mantiene formattazione senza esporre HTML grezzo all'utente)
+  const contentHtml = quill ? quill.getSemanticHTML() : ''
   const data = {
-    title: document.getElementById('blog-title').value,
-    slug: document.getElementById('blog-slug').value,
-    category: document.getElementById('blog-category').value,
-    abstract: document.getElementById('blog-abstract').value,
-    content: document.getElementById('blog-content').value,
-    image_url: document.getElementById('blog-image').value,
+    title:          document.getElementById('blog-title').value,
+    slug:           document.getElementById('blog-slug').value,
+    category:       document.getElementById('blog-category').value,
+    abstract:       document.getElementById('blog-abstract').value,
+    content:        contentHtml,
+    image_url:      document.getElementById('blog-image').value,
     image_position: document.getElementById('blog-imgpos').value,
-    published: document.getElementById('blog-published').checked
+    published:      document.getElementById('blog-published').checked
   }
   const r = id ? await api('/blog/' + id, { method: 'PUT', body: JSON.stringify(data) })
                : await api('/blog', { method: 'POST', body: JSON.stringify(data) })
