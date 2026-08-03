@@ -94,17 +94,17 @@
   <div class="footer-wrapper">
     <div class="footer-cols">
       <div class="footer-col footer-col--brand">
-        <a href="../"><img src="../images/logo-pb-white.png" width="220" height="66" alt="PATRIZIA BELLAVIA" loading="lazy"></a>
+        <a href="/"><img src="/images/logo-pb-white.png" width="220" height="66" alt="PATRIZIA BELLAVIA" loading="lazy"></a>
         <p>HR Senior Advisor &amp; Partner<br>Via Amedeo d'Aosta, 9<br>20129 Milano (MI)</p>
       </div>
       <div class="footer-col">
         <h3 class="footer-heading">LINK RAPIDI</h3>
         <ul class="footer-list">
-          <li><a href="../chi-sono">Chi Sono</a></li>
-          <li><a href="../servizi">Servizi</a></li>
-          <li><a href="../case-history">Case History</a></li>
-          <li><a href="../blog/">Blog</a></li>
-          <li><a href="../contatti">Contatti</a></li>
+          <li><a href="/chi-sono">Chi Sono</a></li>
+          <li><a href="/servizi">Servizi</a></li>
+          <li><a href="/case-history">Case History</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/contatti">Contatti</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -166,9 +166,13 @@
         document.getElementById('art-image-wrap').style.display = 'block'
       }
 
-      // Contenuto: è HTML (da Quill) — va inserito con innerHTML in modo sicuro
+      // Contenuto: HTML da Quill — se null/vuoto mostra messaggio utile
       const contentEl = document.getElementById('art-content')
-      contentEl.innerHTML = post.content || '<p><em>Contenuto non disponibile.</em></p>'
+      if (post.content && post.content.trim() !== '' && post.content !== 'null') {
+        contentEl.innerHTML = post.content
+      } else {
+        contentEl.innerHTML = '<p style="color:#888;font-style:italic;">Il contenuto completo di questo articolo è disponibile nella <a href="/blog/" style="color:#638290">pagina Blog</a>.</p>'
+      }
 
       // Mostra articolo
       document.getElementById('article-loading').style.display = 'none'
