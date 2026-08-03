@@ -12,17 +12,27 @@
   <link rel="icon" href="../static/favicon.ico" sizes="32x32" type="image/x-icon">
   <meta name="theme-color" content="#638290">
   <style>
-    .article-content h2 { font-size:1.35rem; font-weight:700; color:#2d3748; margin:2rem 0 .75rem; }
-    .article-content h3 { font-size:1.1rem; font-weight:700; color:#2d3748; margin:1.5rem 0 .5rem; }
-    .article-content p  { margin-bottom:1rem; line-height:1.8; color:#444; }
+    /* Reset colori base articolo per garantire leggibilità */
+    .blog-article { background:#fff; color:#333; }
+    .article-wrapper { color:#333; }
+    .article-wrapper h1 { color:#1a202c; }
+    .article-meta { color:#638290; }
+    .article-intro { color:#555; }
+    /* Contenuto WYSIWYG */
+    .article-content { color:#333; }
+    .article-content h2 { font-size:1.35rem; font-weight:700; color:#1a202c; margin:2rem 0 .75rem; }
+    .article-content h3 { font-size:1.1rem; font-weight:700; color:#1a202c; margin:1.5rem 0 .5rem; }
+    .article-content p  { margin-bottom:1rem; line-height:1.8; color:#333; }
     .article-content ul, .article-content ol { padding-left:1.5rem; margin-bottom:1rem; }
-    .article-content li { margin-bottom:.4rem; line-height:1.7; color:#444; }
-    .article-content strong { color:#2d3748; font-weight:700; }
-    .article-content em { font-style:italic; }
-    .article-content blockquote { border-left:3px solid #638290; padding:.75rem 1rem; background:#f0f4f6; margin:1.5rem 0; border-radius:0 6px 6px 0; }
+    .article-content li { margin-bottom:.4rem; line-height:1.7; color:#333; }
+    .article-content strong { color:#1a202c; font-weight:700; }
+    .article-content em { font-style:italic; color:#444; }
+    .article-content blockquote { border-left:3px solid #638290; padding:.75rem 1rem; background:#f0f4f6; margin:1.5rem 0; border-radius:0 6px 6px 0; color:#444; }
     .article-content a { color:#638290; text-decoration:underline; }
-    #article-loading { text-align:center; padding:4rem 0; color:#888; }
+    /* Stati caricamento */
+    #article-loading { text-align:center; padding:4rem 0; color:#638290; font-size:1.1rem; }
     #article-error   { text-align:center; padding:4rem 0; color:#c00; }
+    #article-error a { color:#638290; }
   </style>
 </head>
 <body id="top">
@@ -112,14 +122,19 @@
   </div>
 </footer>
 
-<script src="../static/main.js" defer></script>
 <script>
 (function() {
-  // Ricava lo slug dall'URL: /blog/<slug> oppure /blog/<slug>/
-  const parts = window.location.pathname.replace(/\/$/, '').split('/')
-  const slug = parts[parts.length - 1]
+  // Ricava lo slug: prima da query param ?slug=xxx, poi dal path /blog/slug
+  const params = new URLSearchParams(window.location.search)
+  let slug = params.get('slug')
+  if (!slug) {
+    const parts = window.location.pathname.replace(/\/$/, '').split('/')
+    const last = parts[parts.length - 1]
+    // Ignora se siamo su /blog/article senza slug
+    slug = (last && last !== 'article' && last !== 'blog') ? last : null
+  }
 
-  if (!slug || slug === 'blog') {
+  if (!slug) {
     window.location.href = '../blog/'
     return
   }
@@ -164,6 +179,13 @@
       document.getElementById('article-error').style.display   = 'block'
     })
 })()
+
+// Mobile menu
+const ham = document.getElementById('hamburger')
+const mobileMenu = document.getElementById('mobile-menu')
+const mobileClose = document.getElementById('mobile-close')
+if (ham) ham.addEventListener('click', () => mobileMenu.classList.toggle('open'))
+if (mobileClose) mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'))
 </script>
 </body>
 </html>
