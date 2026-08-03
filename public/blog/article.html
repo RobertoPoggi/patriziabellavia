@@ -90,35 +90,33 @@
   </article>
 </main>
 
-<footer id="footer">
-  <div class="footer-wrapper">
+<footer id="footer" class="footer-wrapper">
+  <div class="footer-section"><div class="footer-inner">
+    <div class="footer-logo-col">
+      <img src="/images/logo-bianco.png" alt="Patrizia Bellavia - Studio HR Milano" loading="lazy" decoding="async">
+    </div>
     <div class="footer-cols">
-      <div class="footer-col footer-col--brand">
-        <a href="/"><img src="/images/logo-pb-white.png" width="220" height="66" alt="PATRIZIA BELLAVIA" loading="lazy"></a>
-        <p>HR Senior Advisor &amp; Partner<br>Via Amedeo d'Aosta, 9<br>20129 Milano (MI)</p>
+      <div class="footer-col"><div class="footer-col-title">CONTATTI</div>
+        <p><strong>Cell</strong>: <a href="tel:+393356367761">335 636 7761</a></p>
+        <p><strong>Mail</strong>: <a href="mailto:info@patriziabellavia.it">info@patriziabellavia.it</a></p>
+        <p><strong>Indirizzo</strong>: Via Amedeo d'Aosta, 9 — 20129 Milano</p>
       </div>
-      <div class="footer-col">
-        <h3 class="footer-heading">LINK RAPIDI</h3>
-        <ul class="footer-list">
-          <li><a href="/chi-sono">Chi Sono</a></li>
-          <li><a href="/servizi">Servizi</a></li>
-          <li><a href="/case-history">Case History</a></li>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/contatti">Contatti</a></li>
-        </ul>
+      <div class="footer-col"><div class="footer-col-title">LINK RAPIDI</div>
+        <a href="/chi-sono">Chi Sono</a>
+        <a href="/servizi">Servizi</a>
+        <a href="/case-history">Case History</a>
+        <a href="/blog/">Blog</a>
+        <a href="/contatti">Contatti</a>
       </div>
-      <div class="footer-col">
-        <h3 class="footer-heading">CONTATTI</h3>
-        <ul class="footer-list">
-          <li><a href="tel:+393356367761">+39 335 636 7761</a></li>
-          <li><a href="mailto:info@patriziabellavia.it">info@patriziabellavia.it</a></li>
-          <li><a href="https://www.linkedin.com/in/patrizia-bellavia-61a3893b/" target="_blank" rel="noopener">LinkedIn</a></li>
-        </ul>
+      <div class="footer-col"><div class="footer-col-title">NOTE LEGALI</div>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/cookie-policy">Cookie Policy</a>
+        <a href="https://www.linkedin.com/in/patrizia-bellavia-61a3893b/" target="_blank" rel="noopener noreferrer">Patrizia Bellavia Linkedin</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Patrizia Bellavia — P.IVA IT08509650159</p>
-    </div>
+  </div></div>
+  <div class="absolute-footer">
+    <p>&copy; 2026 Patrizia Bellavia — P.IVA IT08509650159</p>
   </div>
 </footer>
 
@@ -160,18 +158,26 @@
       // Immagine copertina
       if (post.image_url) {
         const img = document.getElementById('art-image')
-        img.src   = post.image_url
-        img.alt   = post.title
+        // Ottimizza URL Unsplash con dimensioni ragionevoli
+        let imgSrc = post.image_url
+        if (imgSrc.includes('unsplash.com') && !imgSrc.includes('&w=')) {
+          imgSrc = imgSrc.replace(/[?&]auto=format.*$/, '') + '?auto=format&fit=crop&w=900&h=420&q=80'
+        }
+        img.src = imgSrc
+        img.alt = post.title
         img.style.objectPosition = post.image_position || 'center'
+        img.onerror = function() { document.getElementById('art-image-wrap').style.display = 'none' }
         document.getElementById('art-image-wrap').style.display = 'block'
       }
 
-      // Contenuto: HTML da Quill — se null/vuoto mostra messaggio utile
+      // Contenuto: HTML da Quill — se null/vuoto, la pagina statica esiste già
       const contentEl = document.getElementById('art-content')
       if (post.content && post.content.trim() !== '' && post.content !== 'null') {
         contentEl.innerHTML = post.content
       } else {
-        contentEl.innerHTML = '<p style="color:#888;font-style:italic;">Il contenuto completo di questo articolo è disponibile nella <a href="/blog/" style="color:#638290">pagina Blog</a>.</p>'
+        // Articolo statico: esiste già come pagina HTML dedicata — redirect diretto
+        window.location.replace('/blog/' + slug)
+        return
       }
 
       // Mostra articolo
