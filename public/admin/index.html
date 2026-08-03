@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Patrizia Bellavia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    [x-cloak] { display: none !important; }
+    .sidebar-link.active { background: rgba(255,255,255,0.15); border-left: 3px solid #fff; }
+    .badge-new { background:#ef4444; } .badge-read { background:#6b7280; }
+    .badge-replied { background:#22c55e; } .badge-archived { background:#9ca3af; }
+    .badge-active { background:#22c55e; } .badge-past { background:#6b7280; }
+    .badge-prospect { background:#f59e0b; }
+    textarea.editor { font-family: monospace; font-size: 13px; }
+    .toast { position:fixed; bottom:24px; right:24px; z-index:9999; padding:14px 20px; border-radius:8px; color:#fff; font-size:14px; box-shadow:0 4px 16px rgba(0,0,0,0.2); animation: slideIn 0.3s ease; }
+    .toast.success { background:#22c55e; } .toast.error { background:#ef4444; }
+    @keyframes slideIn { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#638290] to-[#4a6670]">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm">
+    <div class="text-center mb-8">
+      <div class="text-4xl mb-3">🔐</div>
+      <h1 class="text-2xl font-bold text-gray-800">Pannello Admin</h1>
+      <p class="text-gray-500 text-sm mt-1">Patrizia Bellavia — HR Senior Advisor</p>
+    </div>
+    <div id="login-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"></div>
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <input type="text" id="login-user" value="admin" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#638290]">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" id="login-pass" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#638290]">
+      </div>
+      <button type="submit" id="login-btn" class="w-full bg-[#638290] hover:bg-[#4a6670] text-white font-semibold py-2.5 rounded-lg transition">
+        Accedi
+      </button>
+    </form>
+    <div id="first-setup" class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg hidden">
+      <p class="text-sm text-amber-800 font-medium mb-3">⚙️ Prima configurazione — imposta la password admin</p>
+      <input type="password" id="setup-pass" placeholder="Nuova password (min 8 caratteri)" class="w-full border border-amber-300 rounded-lg px-3 py-2 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-amber-400">
+      <button id="setup-btn" class="w-full bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold py-2 rounded-lg transition">Imposta Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden min-h-screen flex">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-[#638290] text-white flex flex-col shadow-xl flex-shrink-0">
+    <div class="p-6 border-b border-white/20">
+      <div class="font-bold text-lg">Patrizia Bellavia</div>
+      <div class="text-xs text-white/70 mt-1">Pannello di Amministrazione</div>
+    </div>
+    <nav class="flex-1 p-4 space-y-1">
+      <a href="#" data-section="dashboard" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium">
+        <i class="fas fa-chart-pie w-4"></i> Dashboard
+      </a>
+      <a href="#" data-section="contacts" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium">
+        <i class="fas fa-envelope w-4"></i> Contatti
+        <span id="nav-badge-contacts" class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 hidden">0</span>
+      </a>
+      <a href="#" data-section="blog" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium">
+        <i class="fas fa-newspaper w-4"></i> Articoli Blog
+      </a>
+      <a href="#" data-section="clients" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium">
+        <i class="fas fa-building w-4"></i> Clienti
+      </a>
+      <a href="#" data-section="settings" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium">
+        <i class="fas fa-cog w-4"></i> Impostazioni
+      </a>
+    </nav>
+    <div class="p-4 border-t border-white/20">
+      <a href="/" target="_blank" class="flex items-center gap-2 text-white/70 hover:text-white text-sm transition mb-2">
+        <i class="fas fa-external-link-alt w-4"></i> Vedi sito
+      </a>
+      <button id="logout-btn" class="flex items-center gap-2 text-white/70 hover:text-white text-sm transition">
+        <i class="fas fa-sign-out-alt w-4"></i> Esci
+      </button>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 overflow-auto">
+
+    <!-- DASHBOARD -->
+    <section id="section-dashboard" class="p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h2>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+          <div class="text-3xl font-bold text-[#638290]" id="stat-contacts">–</div>
+          <div class="text-sm text-gray-500 mt-1">Contatti Totali</div>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+          <div class="text-3xl font-bold text-red-500" id="stat-new">–</div>
+          <div class="text-sm text-gray-500 mt-1">Nuovi da leggere</div>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+          <div class="text-3xl font-bold text-[#638290]" id="stat-posts">–</div>
+          <div class="text-sm text-gray-500 mt-1">Articoli Blog</div>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+          <div class="text-3xl font-bold text-[#638290]" id="stat-clients">–</div>
+          <div class="text-sm text-gray-500 mt-1">Clienti</div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 class="font-semibold text-gray-700 mb-4">Ultimi messaggi ricevuti</h3>
+        <div id="recent-contacts" class="space-y-3 text-sm text-gray-500">Caricamento...</div>
+      </div>
+    </section>
+
+    <!-- CONTATTI -->
+    <section id="section-contacts" class="p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Contatti</h2>
+        <div class="flex gap-2">
+          <select id="contacts-filter" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+            <option value="">Tutti</option>
+            <option value="new">Nuovi</option>
+            <option value="read">Letti</option>
+            <option value="replied">Risposto</option>
+            <option value="archived">Archiviati</option>
+          </select>
+        </div>
+      </div>
+      <div id="contacts-list" class="space-y-3"></div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="section-blog" class="p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Articoli Blog</h2>
+        <button id="new-post-btn" class="bg-[#638290] hover:bg-[#4a6670] text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+          <i class="fas fa-plus"></i> Nuovo Articolo
+        </button>
+      </div>
+      <div id="blog-list" class="space-y-3"></div>
+    </section>
+
+    <!-- CLIENTI -->
+    <section id="section-clients" class="p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Clienti</h2>
+        <button id="new-client-btn" class="bg-[#638290] hover:bg-[#4a6670] text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+          <i class="fas fa-plus"></i> Nuovo Cliente
+        </button>
+      </div>
+      <div class="flex gap-2 mb-4">
+        <button class="client-filter-btn px-3 py-1.5 rounded-lg text-sm border border-gray-300 hover:bg-gray-50" data-status="">Tutti</button>
+        <button class="client-filter-btn px-3 py-1.5 rounded-lg text-sm border border-gray-300 hover:bg-gray-50" data-status="active">Attivi</button>
+        <button class="client-filter-btn px-3 py-1.5 rounded-lg text-sm border border-gray-300 hover:bg-gray-50" data-status="past">Passati</button>
+        <button class="client-filter-btn px-3 py-1.5 rounded-lg text-sm border border-gray-300 hover:bg-gray-50" data-status="prospect">Prospect</button>
+      </div>
+      <div id="clients-list" class="space-y-3"></div>
+    </section>
+
+    <!-- IMPOSTAZIONI -->
+    <section id="section-settings" class="p-8 hidden">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Impostazioni</h2>
+      <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 max-w-md">
+        <h3 class="font-semibold text-gray-700 mb-4">Cambia Password Admin</h3>
+        <div id="pwd-error" class="hidden mb-3 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"></div>
+        <div id="pwd-success" class="hidden mb-3 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm"></div>
+        <div class="space-y-3">
+          <input type="password" id="cur-pwd" placeholder="Password attuale" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          <input type="password" id="new-pwd" placeholder="Nuova password (min 8 caratteri)" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          <input type="password" id="new-pwd2" placeholder="Ripeti nuova password" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          <button id="save-pwd-btn" class="w-full bg-[#638290] hover:bg-[#4a6670] text-white font-semibold py-2.5 rounded-lg transition text-sm">
+            Aggiorna Password
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- MODAL contatto dettaglio -->
+<div id="contact-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-lg font-bold text-gray-800">Dettaglio Contatto</h3>
+        <button onclick="closeModal('contact-modal')" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+      </div>
+      <div id="contact-detail"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL blog editor -->
+<div id="blog-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-5">
+        <h3 id="blog-modal-title" class="text-lg font-bold text-gray-800">Nuovo Articolo</h3>
+        <button onclick="closeModal('blog-modal')" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+      </div>
+      <form id="blog-form" class="space-y-4">
+        <input type="hidden" id="blog-id">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Titolo *</label>
+            <input type="text" id="blog-title" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Slug URL *</label>
+            <input type="text" id="blog-slug" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Categoria *</label>
+            <select id="blog-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+              <option>Assessment &amp; Sviluppo</option>
+              <option>Coaching</option>
+              <option>Leadership</option>
+              <option>Talent Management</option>
+              <option>Clima &amp; Engagement</option>
+              <option>Performance &amp; MBO</option>
+              <option>HR Strategy</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Abstract (breve descrizione)</label>
+          <textarea id="blog-abstract" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">URL Immagine copertina</label>
+          <input type="text" id="blog-image" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Posizione immagine</label>
+          <select id="blog-imgpos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+            <option value="top center">Top Center (foto con persone)</option>
+            <option value="center">Center (paesaggi, oggetti)</option>
+            <option value="center bottom">Center Bottom</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Contenuto articolo (HTML)</label>
+          <textarea id="blog-content" rows="8" class="editor w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]"></textarea>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="blog-published" class="rounded" checked>
+          <label for="blog-published" class="text-sm text-gray-700">Articolo pubblicato</label>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="flex-1 bg-[#638290] hover:bg-[#4a6670] text-white font-semibold py-2.5 rounded-lg transition text-sm">
+            <i class="fas fa-save mr-2"></i>Salva Articolo
+          </button>
+          <button type="button" onclick="closeModal('blog-modal')" class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm">
+            Annulla
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL cliente editor -->
+<div id="client-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-5">
+        <h3 id="client-modal-title" class="text-lg font-bold text-gray-800">Nuovo Cliente</h3>
+        <button onclick="closeModal('client-modal')" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+      </div>
+      <form id="client-form" class="space-y-4">
+        <input type="hidden" id="client-id">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Azienda *</label>
+          <input type="text" id="client-company" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]" required>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Settore</label>
+            <input type="text" id="client-sector" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Anno inizio</label>
+            <input type="number" id="client-year" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]" placeholder="2024">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Referente</label>
+          <input type="text" id="client-contact" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email referente</label>
+            <input type="email" id="client-email" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Telefono referente</label>
+            <input type="text" id="client-phone" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Note</label>
+          <textarea id="client-notes" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Stato</label>
+          <select id="client-status" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#638290]">
+            <option value="active">Attivo</option>
+            <option value="past">Passato</option>
+            <option value="prospect">Prospect</option>
+          </select>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="flex-1 bg-[#638290] hover:bg-[#4a6670] text-white font-semibold py-2.5 rounded-lg transition text-sm">
+            <i class="fas fa-save mr-2"></i>Salva Cliente
+          </button>
+          <button type="button" onclick="closeModal('client-modal')" class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm">
+            Annulla
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────
+let token = localStorage.getItem('pb_admin_token') || ''
+const API = '/api/admin'
+
+// ─────────────────────────────────────────────
+// Utility
+// ─────────────────────────────────────────────
+function api(path, opts = {}) {
+  return fetch(API + path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token, ...(opts.headers || {}) }
+  }).then(r => r.json())
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.createElement('div')
+  t.className = `toast ${type}`
+  t.textContent = msg
+  document.body.appendChild(t)
+  setTimeout(() => t.remove(), 3500)
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden')
+  document.getElementById(id).classList.remove('flex')
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.remove('hidden')
+  document.getElementById(id).classList.add('flex')
+}
+
+function fmtDate(d) {
+  if (!d) return '–'
+  return new Date(d).toLocaleString('it-IT', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
+}
+
+function badge(status) {
+  const labels = { new:'Nuovo', read:'Letto', replied:'Risposto', archived:'Archiviato', active:'Attivo', past:'Passato', prospect:'Prospect' }
+  return `<span class="badge-${status} text-white text-xs px-2 py-0.5 rounded-full">${labels[status] || status}</span>`
+}
+
+// ─────────────────────────────────────────────
+// Navigation
+// ─────────────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('section[id^="section-"]').forEach(s => s.classList.add('hidden'))
+  document.getElementById('section-' + name)?.classList.remove('hidden')
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'))
+  document.querySelector(`.sidebar-link[data-section="${name}"]`)?.classList.add('active')
+  if (name === 'dashboard') loadDashboard()
+  if (name === 'contacts') loadContacts()
+  if (name === 'blog') loadBlog()
+  if (name === 'clients') loadClients()
+}
+
+document.querySelectorAll('.sidebar-link').forEach(link => {
+  link.addEventListener('click', e => { e.preventDefault(); showSection(link.dataset.section) })
+})
+
+// ─────────────────────────────────────────────
+// LOGIN
+// ─────────────────────────────────────────────
+async function checkFirstSetup() {
+  // tenta login con password vuota per capire se è primo setup
+  const r = await fetch(API + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: 'admin', password: '' })
+  }).then(r => r.json())
+  // se errore generico potrebbe essere primo setup
+}
+
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault()
+  const btn = document.getElementById('login-btn')
+  btn.textContent = 'Accesso in corso...'
+  btn.disabled = true
+  const r = await fetch(API + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: document.getElementById('login-user').value, password: document.getElementById('login-pass').value })
+  }).then(r => r.json())
+  btn.textContent = 'Accedi'
+  btn.disabled = false
+  if (r.token) {
+    token = r.token
+    localStorage.setItem('pb_admin_token', token)
+    document.getElementById('login-screen').classList.add('hidden')
+    document.getElementById('app').classList.remove('hidden')
+    showSection('dashboard')
+  } else {
+    const errEl = document.getElementById('login-error')
+    errEl.textContent = r.error || 'Credenziali non valide'
+    errEl.classList.remove('hidden')
+    // Mostra form primo setup se password non ancora impostata
+    if (r.error && r.error.includes('non valide')) {
+      document.getElementById('first-setup').classList.remove('hidden')
+    }
+  }
+})
+
+document.getElementById('setup-btn').addEventListener('click', async () => {
+  const pass = document.getElementById('setup-pass').value
+  const r = await fetch(API + '/init', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: pass })
+  }).then(r => r.json())
+  if (r.success) {
+    showToast('Password impostata! Ora accedi.')
+    document.getElementById('first-setup').classList.add('hidden')
+  } else {
+    showToast(r.error || 'Errore', 'error')
+  }
+})
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  localStorage.removeItem('pb_admin_token')
+  token = ''
+  document.getElementById('app').classList.add('hidden')
+  document.getElementById('login-screen').classList.remove('hidden')
+})
+
+// ─────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────
+async function loadDashboard() {
+  const stats = await api('/stats')
+  document.getElementById('stat-contacts').textContent = stats.contacts ?? '–'
+  document.getElementById('stat-new').textContent = stats.newContacts ?? '–'
+  document.getElementById('stat-posts').textContent = stats.posts ?? '–'
+  document.getElementById('stat-clients').textContent = stats.clients ?? '–'
+  if (stats.newContacts > 0) {
+    const b = document.getElementById('nav-badge-contacts')
+    b.textContent = stats.newContacts
+    b.classList.remove('hidden')
+  }
+  // Ultimi 5 contatti
+  const data = await api('/contacts?page=1')
+  const el = document.getElementById('recent-contacts')
+  if (!data.contacts?.length) { el.textContent = 'Nessun messaggio ricevuto.'; return }
+  el.innerHTML = data.contacts.slice(0, 5).map(c => `
+    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100" onclick="openContactDetail(${c.id})">
+      <div class="w-9 h-9 rounded-full bg-[#638290] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+        ${c.name.charAt(0).toUpperCase()}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="font-medium text-gray-800 text-sm">${c.name}</div>
+        <div class="text-gray-500 text-xs truncate">${c.message.substring(0, 60)}...</div>
+      </div>
+      <div class="flex-shrink-0">${badge(c.status)}</div>
+    </div>
+  `).join('')
+}
+
+// ─────────────────────────────────────────────
+// CONTATTI
+// ─────────────────────────────────────────────
+async function loadContacts(status = '') {
+  const data = await api(`/contacts${status ? '?status=' + status : ''}`)
+  const el = document.getElementById('contacts-list')
+  if (!data.contacts?.length) { el.innerHTML = '<div class="text-gray-400 text-sm py-8 text-center">Nessun messaggio trovato.</div>'; return }
+  el.innerHTML = data.contacts.map(c => `
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex items-start gap-3 flex-1 min-w-0">
+          <div class="w-10 h-10 rounded-full bg-[#638290] text-white flex items-center justify-center font-bold flex-shrink-0">
+            ${c.name.charAt(0).toUpperCase()}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-semibold text-gray-800">${c.name}</span>
+              ${badge(c.status)}
+            </div>
+            <div class="text-sm text-gray-500">${c.email}${c.phone ? ' · ' + c.phone : ''}</div>
+            <div class="text-sm text-gray-600 mt-1 truncate">${c.message.substring(0, 80)}${c.message.length > 80 ? '...' : ''}</div>
+            <div class="text-xs text-gray-400 mt-1">${fmtDate(c.created_at)}</div>
+          </div>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button onclick="openContactDetail(${c.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition">
+            <i class="fas fa-eye"></i>
+          </button>
+          <a href="mailto:${c.email}" onclick="markContact(${c.id},'replied')" class="text-green-600 hover:bg-green-50 px-3 py-1.5 rounded-lg text-xs transition">
+            <i class="fas fa-reply"></i>
+          </a>
+          <button onclick="markContact(${c.id},'archived')" class="text-gray-400 hover:bg-gray-100 px-3 py-1.5 rounded-lg text-xs transition">
+            <i class="fas fa-archive"></i>
+          </button>
+          <button onclick="deleteContact(${c.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('')
+}
+
+document.getElementById('contacts-filter').addEventListener('change', e => loadContacts(e.target.value))
+
+async function openContactDetail(id) {
+  const data = await api('/contacts?page=1')
+  const c = data.contacts?.find(x => x.id === id)
+  if (!c) return
+  await markContact(id, 'read', false)
+  document.getElementById('contact-detail').innerHTML = `
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div><div class="text-xs text-gray-400 uppercase">Nome</div><div class="font-semibold">${c.name}</div></div>
+        <div><div class="text-xs text-gray-400 uppercase">Data</div><div>${fmtDate(c.created_at)}</div></div>
+        <div><div class="text-xs text-gray-400 uppercase">Email</div><a href="mailto:${c.email}" class="text-[#638290] hover:underline">${c.email}</a></div>
+        <div><div class="text-xs text-gray-400 uppercase">Telefono</div><div>${c.phone || '–'}</div></div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-400 uppercase mb-2">Messaggio</div>
+        <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">${c.message}</div>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <a href="mailto:${c.email}?subject=Re: Contatto dal sito patriziabellavia.it" 
+           onclick="markContact(${c.id},'replied')"
+           class="flex-1 bg-[#638290] hover:bg-[#4a6670] text-white text-center py-2.5 rounded-lg text-sm font-medium transition">
+          <i class="fas fa-reply mr-2"></i>Rispondi via Email
+        </a>
+        <button onclick="markContact(${c.id},'archived');closeModal('contact-modal')" 
+                class="px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 text-sm transition">
+          Archivia
+        </button>
+      </div>
+    </div>
+  `
+  openModal('contact-modal')
+}
+
+async function markContact(id, status, reload = true) {
+  await api(`/contacts/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
+  if (reload) { loadContacts(document.getElementById('contacts-filter').value); loadDashboard() }
+}
+
+async function deleteContact(id) {
+  if (!confirm('Eliminare questo messaggio?')) return
+  await api(`/contacts/${id}`, { method: 'DELETE' })
+  showToast('Messaggio eliminato')
+  loadContacts(document.getElementById('contacts-filter').value)
+  loadDashboard()
+}
+
+// ─────────────────────────────────────────────
+// BLOG
+// ─────────────────────────────────────────────
+async function loadBlog() {
+  const data = await api('/blog')
+  const el = document.getElementById('blog-list')
+  if (!data.posts?.length) { el.innerHTML = '<div class="text-gray-400 text-sm py-8 text-center">Nessun articolo.</div>'; return }
+  el.innerHTML = data.posts.map(p => `
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex gap-4 items-center">
+      ${p.image_url ? `<img src="${p.image_url}&w=80&h=80&fit=crop" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" loading="lazy">` : '<div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0"></div>'}
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap mb-1">
+          <span class="font-semibold text-gray-800 text-sm">${p.title}</span>
+          <span class="text-xs px-2 py-0.5 rounded-full ${p.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}">${p.published ? 'Pubblicato' : 'Bozza'}</span>
+        </div>
+        <div class="text-xs text-[#638290] font-medium">${p.category}</div>
+        <div class="text-xs text-gray-400 mt-1">${fmtDate(p.published_at)}</div>
+      </div>
+      <div class="flex gap-2 flex-shrink-0">
+        <button onclick="editPost(${p.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-edit"></i></button>
+        <button onclick="deletePost(${p.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('')
+}
+
+document.getElementById('new-post-btn').addEventListener('click', () => {
+  document.getElementById('blog-id').value = ''
+  document.getElementById('blog-modal-title').textContent = 'Nuovo Articolo'
+  document.getElementById('blog-form').reset()
+  document.getElementById('blog-published').checked = true
+  openModal('blog-modal')
+})
+
+document.getElementById('blog-title').addEventListener('input', e => {
+  if (!document.getElementById('blog-id').value) {
+    document.getElementById('blog-slug').value = e.target.value
+      .toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
+  }
+})
+
+async function editPost(id) {
+  const p = await api('/blog/' + id)
+  document.getElementById('blog-id').value = p.id
+  document.getElementById('blog-modal-title').textContent = 'Modifica Articolo'
+  document.getElementById('blog-title').value = p.title
+  document.getElementById('blog-slug').value = p.slug
+  document.getElementById('blog-category').value = p.category
+  document.getElementById('blog-abstract').value = p.abstract || ''
+  document.getElementById('blog-content').value = p.content || ''
+  document.getElementById('blog-image').value = p.image_url || ''
+  document.getElementById('blog-imgpos').value = p.image_position || 'top center'
+  document.getElementById('blog-published').checked = !!p.published
+  openModal('blog-modal')
+}
+
+document.getElementById('blog-form').addEventListener('submit', async e => {
+  e.preventDefault()
+  const id = document.getElementById('blog-id').value
+  const data = {
+    title: document.getElementById('blog-title').value,
+    slug: document.getElementById('blog-slug').value,
+    category: document.getElementById('blog-category').value,
+    abstract: document.getElementById('blog-abstract').value,
+    content: document.getElementById('blog-content').value,
+    image_url: document.getElementById('blog-image').value,
+    image_position: document.getElementById('blog-imgpos').value,
+    published: document.getElementById('blog-published').checked
+  }
+  const r = id ? await api('/blog/' + id, { method: 'PUT', body: JSON.stringify(data) })
+               : await api('/blog', { method: 'POST', body: JSON.stringify(data) })
+  if (r.success) {
+    showToast(id ? 'Articolo aggiornato!' : 'Articolo creato!')
+    closeModal('blog-modal')
+    loadBlog()
+  } else {
+    showToast(r.error || 'Errore', 'error')
+  }
+})
+
+async function deletePost(id) {
+  if (!confirm('Eliminare questo articolo?')) return
+  await api('/blog/' + id, { method: 'DELETE' })
+  showToast('Articolo eliminato')
+  loadBlog()
+}
+
+// ─────────────────────────────────────────────
+// CLIENTI
+// ─────────────────────────────────────────────
+let clientFilter = ''
+
+async function loadClients(status = clientFilter) {
+  clientFilter = status
+  const data = await api(`/clients${status ? '?status=' + status : ''}`)
+  const el = document.getElementById('clients-list')
+  if (!data.clients?.length) { el.innerHTML = '<div class="text-gray-400 text-sm py-8 text-center">Nessun cliente trovato.</div>'; return }
+  el.innerHTML = data.clients.map(c => `
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1">
+            <span class="font-semibold text-gray-800">${c.company}</span>
+            ${badge(c.status)}
+            ${c.start_year ? `<span class="text-xs text-gray-400">dal ${c.start_year}</span>` : ''}
+          </div>
+          ${c.sector ? `<div class="text-xs text-[#638290] font-medium">${c.sector}</div>` : ''}
+          ${c.contact_name ? `<div class="text-sm text-gray-600 mt-1">${c.contact_name}${c.contact_email ? ` · <a href="mailto:${c.contact_email}" class="text-[#638290] hover:underline">${c.contact_email}</a>` : ''}</div>` : ''}
+          ${c.notes ? `<div class="text-sm text-gray-500 mt-1 italic">${c.notes}</div>` : ''}
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button onclick="editClient(${c.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-edit"></i></button>
+          <button onclick="deleteClient(${c.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('')
+}
+
+document.querySelectorAll('.client-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.client-filter-btn').forEach(b => b.classList.remove('bg-[#638290]', 'text-white', 'border-[#638290]'))
+    btn.classList.add('bg-[#638290]', 'text-white', 'border-[#638290]')
+    loadClients(btn.dataset.status)
+  })
+})
+
+document.getElementById('new-client-btn').addEventListener('click', () => {
+  document.getElementById('client-id').value = ''
+  document.getElementById('client-modal-title').textContent = 'Nuovo Cliente'
+  document.getElementById('client-form').reset()
+  openModal('client-modal')
+})
+
+async function editClient(id) {
+  const c = await api('/clients/' + id)
+  document.getElementById('client-id').value = c.id
+  document.getElementById('client-modal-title').textContent = 'Modifica Cliente'
+  document.getElementById('client-company').value = c.company
+  document.getElementById('client-sector').value = c.sector || ''
+  document.getElementById('client-year').value = c.start_year || ''
+  document.getElementById('client-contact').value = c.contact_name || ''
+  document.getElementById('client-email').value = c.contact_email || ''
+  document.getElementById('client-phone').value = c.contact_phone || ''
+  document.getElementById('client-notes').value = c.notes || ''
+  document.getElementById('client-status').value = c.status || 'active'
+  openModal('client-modal')
+}
+
+document.getElementById('client-form').addEventListener('submit', async e => {
+  e.preventDefault()
+  const id = document.getElementById('client-id').value
+  const data = {
+    company: document.getElementById('client-company').value,
+    sector: document.getElementById('client-sector').value,
+    start_year: document.getElementById('client-year').value || null,
+    contact_name: document.getElementById('client-contact').value,
+    contact_email: document.getElementById('client-email').value,
+    contact_phone: document.getElementById('client-phone').value,
+    notes: document.getElementById('client-notes').value,
+    status: document.getElementById('client-status').value
+  }
+  const r = id ? await api('/clients/' + id, { method: 'PUT', body: JSON.stringify(data) })
+               : await api('/clients', { method: 'POST', body: JSON.stringify(data) })
+  if (r.success) {
+    showToast(id ? 'Cliente aggiornato!' : 'Cliente aggiunto!')
+    closeModal('client-modal')
+    loadClients()
+  } else {
+    showToast(r.error || 'Errore', 'error')
+  }
+})
+
+async function deleteClient(id) {
+  if (!confirm('Eliminare questo cliente?')) return
+  await api('/clients/' + id, { method: 'DELETE' })
+  showToast('Cliente eliminato')
+  loadClients()
+}
+
+// ─────────────────────────────────────────────
+// IMPOSTAZIONI
+// ─────────────────────────────────────────────
+document.getElementById('save-pwd-btn').addEventListener('click', async () => {
+  const cur = document.getElementById('cur-pwd').value
+  const n1 = document.getElementById('new-pwd').value
+  const n2 = document.getElementById('new-pwd2').value
+  const errEl = document.getElementById('pwd-error')
+  const okEl = document.getElementById('pwd-success')
+  errEl.classList.add('hidden'); okEl.classList.add('hidden')
+  if (n1 !== n2) { errEl.textContent = 'Le password non coincidono'; errEl.classList.remove('hidden'); return }
+  if (n1.length < 8) { errEl.textContent = 'Minimo 8 caratteri'; errEl.classList.remove('hidden'); return }
+  const r = await api('/change-password', { method: 'POST', body: JSON.stringify({ current_password: cur, new_password: n1 }) })
+  if (r.success) { okEl.textContent = 'Password aggiornata!'; okEl.classList.remove('hidden'); document.getElementById('cur-pwd').value=''; document.getElementById('new-pwd').value=''; document.getElementById('new-pwd2').value='' }
+  else { errEl.textContent = r.error || 'Errore'; errEl.classList.remove('hidden') }
+})
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+if (token) {
+  // Verifica token valido
+  api('/stats').then(r => {
+    if (r.error) {
+      localStorage.removeItem('pb_admin_token')
+      token = ''
+    } else {
+      document.getElementById('login-screen').classList.add('hidden')
+      document.getElementById('app').classList.remove('hidden')
+      showSection('dashboard')
+    }
+  })
+}
+</script>
+</body>
+</html>
