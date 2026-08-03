@@ -24,9 +24,6 @@ app.use('/api/*', cors({
 app.route('/api/contact', contactRoute)
 app.route('/api/admin', adminRoute)
 
-// Redirect / → /index.html (Pages non passa / al worker se index.html esiste)
-app.get('/', (c) => c.redirect('/index.html', 302))
-
 // Serve il pannello admin (/admin/)
 app.use('/admin/*', serveStatic({ root: './' }))
 

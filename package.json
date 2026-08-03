@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "dev:worker": "wrangler pages dev dist --d1=DB --local --ip 0.0.0.0 --port 3000",
-    "build": "vite build",
+    "build": "vite build && node scripts/post-build.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name patriziabellavia",
     "db:create": "wrangler d1 create patriziabellavia-db",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",

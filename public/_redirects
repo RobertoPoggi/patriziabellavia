@@ -1,0 +1,20 @@
+# Rewrite URL senza estensione → file .html (200 = rewrite senza redirect visibile)
+/chi-sono      /chi-sono.html      200
+/servizi       /servizi.html       200
+/case-history  /case-history.html  200
+/contatti      /contatti.html      200
+/blog          /blog/index.html    200
+
+# Articoli blog
+/blog/assessment-soft-skill-cosa-come-quando          /blog/assessment-soft-skill-cosa-come-quando.html          200
+/blog/clima-organizzativo-indici-survey-azioni         /blog/clima-organizzativo-indici-survey-azioni.html         200
+/blog/coaching-executive-icf-quando-serve              /blog/coaching-executive-icf-quando-serve.html              200
+/blog/engagement-retention-cosa-misurare               /blog/engagement-retention-cosa-misurare.html               200
+/blog/feedback-360-come-implementarlo                  /blog/feedback-360-come-implementarlo.html                  200
+/blog/hr-senior-advisor-vs-hr-director                 /blog/hr-senior-advisor-vs-hr-director.html                 200
+/blog/modelli-leadership-situazionale-transteorica     /blog/modelli-leadership-situazionale-transteorica.html     200
+/blog/onboarding-soft-skill-primi-90-giorni            /blog/onboarding-soft-skill-primi-90-giorni.html            200
+/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano /blog/patrizia-bellavia-30-anni-hr-consulenziale-milano.html 200
+/blog/performance-management-mbo-guida-pratica         /blog/performance-management-mbo-guida-pratica.html         200
+/blog/succession-planning-tavole-successione           /blog/succession-planning-tavole-successione.html           200
+/blog/talent-review-come-condurla                      /blog/talent-review-come-condurla.html                      200
