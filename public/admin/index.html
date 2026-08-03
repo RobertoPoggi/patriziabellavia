@@ -662,7 +662,6 @@ document.getElementById('blog-title').addEventListener('input', e => {
 })
 
 async function editPost(id) {
-  initQuill()
   const p = await api('/blog/' + id)
   document.getElementById('blog-id').value = p.id
   document.getElementById('blog-modal-title').textContent = 'Modifica Articolo'
@@ -673,10 +672,15 @@ async function editPost(id) {
   document.getElementById('blog-image').value    = p.image_url || ''
   document.getElementById('blog-imgpos').value   = p.image_position || 'top center'
   document.getElementById('blog-published').checked = !!p.published
-  // Carica contenuto HTML nell'editor Quill
-  quill.clipboard.dangerouslyPasteHTML(p.content || '')
+  // Apri il modal PRIMA di inizializzare/popolare Quill
+  // (Quill su elemento display:none non renderizza il contenuto)
   openModal('blog-modal')
-  setTimeout(() => quill.focus(), 100)
+  initQuill()
+  // Piccolo delay per assicurarsi che il modal sia visibile nel DOM
+  setTimeout(() => {
+    quill.clipboard.dangerouslyPasteHTML(p.content || '')
+    quill.focus()
+  }, 50)
 }
 
 document.getElementById('blog-form').addEventListener('submit', async e => {
