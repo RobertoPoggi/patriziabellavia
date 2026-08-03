@@ -193,7 +193,7 @@
         var title = p.title ? p.title.replace(/&/g, '&amp;').replace(/</g, '&lt;') : ''
         var sep = dateLabel ? ' &middot; ' : ''
 
-        return '<article class="blog-card-new animate-on-scroll" data-animation="fadeInUp">'
+        return '<article class="blog-card-new">'
           + '<a href="' + url + '" class="blog-card-img-link" aria-label="Leggi: ' + title + '">'
           + '<div class="blog-card-img" style="background-image:url(\'' + imgUrl + '\');background-position:' + imgPos + ';" role="img" aria-label="' + title + '"></div>'
           + '<div class="blog-card-category">' + cat + '</div>'
