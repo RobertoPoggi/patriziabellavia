@@ -9,6 +9,8 @@
   <!-- Quill WYSIWYG editor -->
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  <!-- jsPDF — generazione PDF lato client -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <style>
     [x-cloak] { display: none !important; }
     .sidebar-link.active { background: rgba(255,255,255,0.15); border-left: 3px solid #fff; }
@@ -31,6 +33,11 @@
     .ql-editor li { color: #1f2937; }
     .ql-editor strong { color: #111827; }
     .ql-editor em { color: #374151; }
+    /* PDF export */
+    .pdf-btn-single { color:#b45309; transition:background 0.15s; }
+    .pdf-btn-single:hover { background:#fef3c7; border-radius:6px; }
+    .pdf-spinner { display:inline-block; width:14px; height:14px; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:middle; }
+    @keyframes spin { to { transform:rotate(360deg); } }
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -153,9 +160,14 @@
     <section id="section-blog" class="p-8 hidden">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Articoli Blog</h2>
-        <button id="new-post-btn" class="bg-[#638290] hover:bg-[#4a6670] text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-          <i class="fas fa-plus"></i> Nuovo Articolo
-        </button>
+        <div class="flex gap-2">
+          <button id="export-all-pdf-btn" onclick="exportAllPDF()" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2" title="Esporta tutti gli articoli in PDF">
+            <i class="fas fa-file-pdf"></i> Esporta tutti PDF
+          </button>
+          <button id="new-post-btn" class="bg-[#638290] hover:bg-[#4a6670] text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+            <i class="fas fa-plus"></i> Nuovo Articolo
+          </button>
+        </div>
       </div>
       <div id="blog-list" class="space-y-3"></div>
     </section>
@@ -615,6 +627,7 @@ async function loadBlog() {
       </div>
       <div class="flex gap-2 flex-shrink-0">
         <a href="/blog/article?slug=${p.slug}" target="_blank" class="text-gray-400 hover:bg-gray-100 px-3 py-1.5 rounded-lg text-xs transition" title="Visualizza articolo"><i class="fas fa-eye"></i></a>
+        <button onclick="exportPostPDF(${p.id}, this)" class="pdf-btn-single px-3 py-1.5 text-xs transition" title="Esporta PDF"><i class="fas fa-file-pdf"></i></button>
         <button onclick="editPost(${p.id})" class="text-[#638290] hover:bg-[#638290]/10 px-3 py-1.5 rounded-lg text-xs transition" title="Modifica"><i class="fas fa-edit"></i></button>
         <button onclick="deletePost(${p.id})" class="text-red-400 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs transition" title="Elimina"><i class="fas fa-trash"></i></button>
       </div>
@@ -819,6 +832,366 @@ async function deleteClient(id) {
   await api('/clients/' + id, { method: 'DELETE' })
   showToast('Cliente eliminato')
   loadClients()
+}
+
+// ─────────────────────────────────────────────
+// PDF EXPORT
+// ─────────────────────────────────────────────
+
+/**
+ * Converte un tag HTML in testo leggibile pulito per il PDF.
+ * Gestisce h1-h4, p, li, blockquote, br, strong, em, a.
+ */
+function htmlToLines(html) {
+  if (!html) return []
+  // Normalizza <br> → newline
+  let h = html.replace(/<br\s*\/?>/gi, '\n')
+  // Rimuovi tag di struttura mantenendo il testo
+  h = h.replace(/<\/(p|h[1-6]|li|blockquote|div|tr)>/gi, '\n')
+  h = h.replace(/<(hr)[^>]*>/gi, '\n---\n')
+  // Rimuovi tutti gli altri tag
+  h = h.replace(/<[^>]+>/g, '')
+  // Decode entità HTML comuni
+  h = h.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ').replace(/&middot;/g, '·').replace(/&hellip;/g, '…').replace(/&laquo;/g, '«').replace(/&raquo;/g, '»')
+  // Rimuovi righe vuote consecutive
+  return h.split('\n').map(l => l.trim()).filter((l, i, a) => l !== '' || a[i-1] !== '')
+}
+
+/**
+ * Scrive un blocco di testo con wrap automatico, ritorna la nuova y.
+ */
+function pdfWriteWrapped(doc, text, x, y, maxWidth, lineHeight) {
+  const lines = doc.splitTextToSize(text, maxWidth)
+  lines.forEach(line => {
+    if (y > 270) { doc.addPage(); y = 20 }
+    doc.text(line, x, y)
+    y += lineHeight
+  })
+  return y
+}
+
+/**
+ * Genera il PDF di un singolo articolo dato l'oggetto post.
+ */
+function buildPostPDF(post) {
+  const { jsPDF } = window.jspdf
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' })
+
+  const pageW = doc.internal.pageSize.getWidth()
+  const pageH = doc.internal.pageSize.getHeight()
+  const marginL = 18, marginR = 18
+  const contentW = pageW - marginL - marginR
+
+  // ── Header banda colorata ──
+  doc.setFillColor(99, 130, 144) // #638290
+  doc.rect(0, 0, pageW, 28, 'F')
+
+  // Logo / Nome sito
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(13)
+  doc.setTextColor(255, 255, 255)
+  doc.text('Patrizia Bellavia — HR Senior Advisor', marginL, 13)
+  doc.setFontSize(9)
+  doc.setFont('helvetica', 'normal')
+  doc.text('patriziabellavia.pages.dev', marginL, 21)
+
+  // URL articolo a destra
+  const articleUrl = 'patriziabellavia.pages.dev/blog/article?slug=' + (post.slug || '')
+  doc.setFontSize(8)
+  doc.text(articleUrl, pageW - marginR, 21, { align: 'right' })
+
+  // ── Categoria ──
+  let y = 38
+  if (post.category) {
+    doc.setFillColor(235, 245, 248)
+    doc.roundedRect(marginL, y - 5, contentW, 9, 2, 2, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(9)
+    doc.setTextColor(74, 102, 112)
+    doc.text(post.category.toUpperCase(), marginL + 4, y)
+    y += 10
+  }
+
+  // ── Titolo ──
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(20)
+  doc.setTextColor(17, 24, 39)
+  const titleLines = doc.splitTextToSize(post.title || 'Senza titolo', contentW)
+  titleLines.forEach(line => {
+    if (y > 270) { doc.addPage(); y = 20 }
+    doc.text(line, marginL, y)
+    y += 9
+  })
+  y += 3
+
+  // ── Meta: data + slug ──
+  const datePub = post.published_at
+    ? new Date(post.published_at).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })
+    : ''
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(9)
+  doc.setTextColor(107, 114, 128)
+  if (datePub) { doc.text(datePub, marginL, y); y += 6 }
+
+  // ── Linea separatrice ──
+  doc.setDrawColor(199, 210, 214)
+  doc.setLineWidth(0.3)
+  doc.line(marginL, y, pageW - marginR, y)
+  y += 7
+
+  // ── Abstract ──
+  if (post.abstract) {
+    doc.setFillColor(248, 250, 252)
+    const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
+    const abstractH = abstractLines.length * 5.5 + 8
+    doc.roundedRect(marginL, y - 4, contentW, abstractH, 2, 2, 'F')
+    doc.setDrawColor(99, 130, 144)
+    doc.setLineWidth(0.8)
+    doc.line(marginL, y - 4, marginL, y - 4 + abstractH)
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(10)
+    doc.setTextColor(55, 65, 81)
+    abstractLines.forEach(line => {
+      doc.text(line, marginL + 5, y)
+      y += 5.5
+    })
+    y += 6
+    doc.setLineWidth(0.3)
+  }
+
+  // ── Contenuto ──
+  const lines = htmlToLines(post.content || '')
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(10.5)
+  doc.setTextColor(31, 41, 55)
+
+  lines.forEach(line => {
+    if (y > 275) { doc.addPage(); y = 20 }
+
+    // Separatore ---
+    if (line === '---') {
+      doc.setDrawColor(199, 210, 214)
+      doc.line(marginL, y, pageW - marginR, y)
+      y += 5
+      return
+    }
+
+    // Rileva se è un "titolo" (testo corto preceduto da riga vuota nel contenuto Quill)
+    const isLikelyHeading = line.length < 80 && /^[A-Z\u00C0-\u024F]/.test(line) && !line.endsWith('.')
+    if (isLikelyHeading && lines.indexOf(line) > 0) {
+      // heuristica leggera — non sicura al 100%, ma migliora la leggibilità
+    }
+
+    const wrapped = doc.splitTextToSize(line, contentW)
+    wrapped.forEach(wl => {
+      if (y > 275) { doc.addPage(); y = 20 }
+      doc.text(wl, marginL, y)
+      y += 6
+    })
+    y += 1 // piccolo spazio tra paragrafi
+  })
+
+  // ── Footer su ogni pagina ──
+  const totalPages = doc.internal.getNumberOfPages()
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i)
+    doc.setDrawColor(199, 210, 214)
+    doc.setLineWidth(0.3)
+    doc.line(marginL, pageH - 14, pageW - marginR, pageH - 14)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(156, 163, 175)
+    doc.text('patriziabellavia.pages.dev', marginL, pageH - 8)
+    doc.text('Pagina ' + i + ' di ' + totalPages, pageW - marginR, pageH - 8, { align: 'right' })
+  }
+
+  return doc
+}
+
+/**
+ * Esporta il PDF di un singolo articolo (carica dal DB via id).
+ */
+async function exportPostPDF(id, btn) {
+  btn = btn || null
+  try {
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="pdf-spinner"></span>' }
+    const post = await api('/blog/' + id)
+    if (!post || !post.id) { showToast('Articolo non trovato', 'error'); return }
+    const doc = buildPostPDF(post)
+    const filename = 'articolo-' + (post.slug || 'blog') + '.pdf'
+    doc.save(filename)
+    showToast('PDF "' + post.title + '" scaricato!')
+  } catch(e) {
+    console.error('exportPostPDF error:', e)
+    showToast('Errore nella generazione PDF', 'error')
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-file-pdf"></i>' }
+  }
+}
+
+/**
+ * Esporta un PDF multi-pagina con tutti gli articoli pubblicati.
+ * Ogni articolo inizia su una nuova pagina.
+ */
+async function exportAllPDF() {
+  const btn = document.getElementById('export-all-pdf-btn')
+  try {
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="pdf-spinner"></span> Generazione…' }
+    const data = await api('/blog')
+    const posts = data.posts || []
+    if (!posts.length) { showToast('Nessun articolo da esportare', 'error'); return }
+
+    // Carica il contenuto completo di ogni articolo
+    const fullPosts = await Promise.all(posts.map(p => api('/blog/' + p.id)))
+
+    // Costruisci tutto in un unico documento multi-articolo
+    const merged = buildAllPostsPDF(fullPosts)
+    const date = new Date().toISOString().slice(0, 10)
+    merged.save('blog-patriziabellavia-' + date + '.pdf')
+    showToast('PDF con ' + fullPosts.length + ' articoli scaricato!')
+  } catch(e) {
+    console.error('exportAllPDF error:', e)
+    showToast('Errore nella generazione PDF', 'error')
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-file-pdf"></i> Esporta tutti PDF' }
+  }
+}
+
+/**
+ * Costruisce un unico PDF con tutti gli articoli, ognuno separato da nuova pagina.
+ */
+function buildAllPostsPDF(posts) {
+  const { jsPDF } = window.jspdf
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' })
+
+  const pageW = doc.internal.pageSize.getWidth()
+  const pageH = doc.internal.pageSize.getHeight()
+  const marginL = 18, marginR = 18
+  const contentW = pageW - marginL - marginR
+
+  posts.forEach((post, idx) => {
+    if (idx > 0) doc.addPage()
+
+    // ── Header banda colorata ──
+    doc.setFillColor(99, 130, 144)
+    doc.rect(0, 0, pageW, 28, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(13)
+    doc.setTextColor(255, 255, 255)
+    doc.text('Patrizia Bellavia — HR Senior Advisor', marginL, 13)
+    doc.setFontSize(9)
+    doc.setFont('helvetica', 'normal')
+    doc.text('patriziabellavia.pages.dev', marginL, 21)
+    const articleUrl = 'patriziabellavia.pages.dev/blog/article?slug=' + (post.slug || '')
+    doc.setFontSize(8)
+    doc.text(articleUrl, pageW - marginR, 21, { align: 'right' })
+
+    // ── Indice articolo ──
+    doc.setFontSize(8)
+    doc.setTextColor(200, 220, 228)
+    doc.text('Articolo ' + (idx + 1) + ' di ' + posts.length, pageW - marginR, 13, { align: 'right' })
+
+    // ── Categoria ──
+    let y = 38
+    if (post.category) {
+      doc.setFillColor(235, 245, 248)
+      doc.roundedRect(marginL, y - 5, contentW, 9, 2, 2, 'F')
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(9)
+      doc.setTextColor(74, 102, 112)
+      doc.text(post.category.toUpperCase(), marginL + 4, y)
+      y += 10
+    }
+
+    // ── Titolo ──
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(20)
+    doc.setTextColor(17, 24, 39)
+    const titleLines = doc.splitTextToSize(post.title || 'Senza titolo', contentW)
+    titleLines.forEach(line => {
+      if (y > 270) { doc.addPage(); addFooterToCurrentPage(doc, pageW, pageH, marginL, marginR); y = 20 }
+      doc.text(line, marginL, y)
+      y += 9
+    })
+    y += 3
+
+    // ── Meta: data ──
+    const datePub = post.published_at
+      ? new Date(post.published_at).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })
+      : ''
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.setTextColor(107, 114, 128)
+    if (datePub) { if (y > 270) { doc.addPage(); y = 20 } doc.text(datePub, marginL, y); y += 6 }
+
+    // ── Linea ──
+    doc.setDrawColor(199, 210, 214)
+    doc.setLineWidth(0.3)
+    if (y > 270) { doc.addPage(); y = 20 }
+    doc.line(marginL, y, pageW - marginR, y)
+    y += 7
+
+    // ── Abstract ──
+    if (post.abstract) {
+      const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
+      const abstractH = abstractLines.length * 5.5 + 8
+      if (y + abstractH > 275) { doc.addPage(); y = 20 }
+      doc.setFillColor(248, 250, 252)
+      doc.roundedRect(marginL, y - 4, contentW, abstractH, 2, 2, 'F')
+      doc.setDrawColor(99, 130, 144)
+      doc.setLineWidth(0.8)
+      doc.line(marginL, y - 4, marginL, y - 4 + abstractH)
+      doc.setFont('helvetica', 'italic')
+      doc.setFontSize(10)
+      doc.setTextColor(55, 65, 81)
+      abstractLines.forEach(line => {
+        if (y > 270) { doc.addPage(); y = 20 }
+        doc.text(line, marginL + 5, y)
+        y += 5.5
+      })
+      y += 6
+      doc.setLineWidth(0.3)
+    }
+
+    // ── Contenuto ──
+    const lines = htmlToLines(post.content || '')
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(10.5)
+    doc.setTextColor(31, 41, 55)
+
+    lines.forEach(line => {
+      if (y > 275) { doc.addPage(); y = 20 }
+      if (line === '---') {
+        doc.setDrawColor(199, 210, 214)
+        doc.line(marginL, y, pageW - marginR, y)
+        y += 5
+        return
+      }
+      const wrapped = doc.splitTextToSize(line, contentW)
+      wrapped.forEach(wl => {
+        if (y > 275) { doc.addPage(); y = 20 }
+        doc.text(wl, marginL, y)
+        y += 6
+      })
+      y += 1
+    })
+  })
+
+  // ── Footer su ogni pagina ──
+  const totalPages = doc.internal.getNumberOfPages()
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i)
+    doc.setDrawColor(199, 210, 214)
+    doc.setLineWidth(0.3)
+    doc.line(marginL, pageH - 14, pageW - marginR, pageH - 14)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(156, 163, 175)
+    doc.text('patriziabellavia.pages.dev', marginL, pageH - 8)
+    doc.text('Pagina ' + i + ' di ' + totalPages, pageW - marginR, pageH - 8, { align: 'right' })
+  }
+
+  return doc
 }
 
 // ─────────────────────────────────────────────
