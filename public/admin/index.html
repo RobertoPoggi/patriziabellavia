@@ -941,15 +941,18 @@ function buildPostPDF(post) {
 
   // ── Abstract ──
   if (post.abstract) {
-    doc.setFillColor(248, 250, 252)
+    // IMPORTANTE: impostare font/size PRIMA di splitTextToSize
+    // per usare le metriche corrette nel calcolo dei wrap
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(10)
+    doc.setCharSpace(0)
     const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
     const abstractH = abstractLines.length * 5.5 + 8
+    doc.setFillColor(248, 250, 252)
     doc.roundedRect(marginL, y - 4, contentW, abstractH, 2, 2, 'F')
     doc.setDrawColor(99, 130, 144)
     doc.setLineWidth(0.8)
     doc.line(marginL, y - 4, marginL, y - 4 + abstractH)
-    doc.setFont('helvetica', 'italic')
-    doc.setFontSize(10)
     doc.setTextColor(55, 65, 81)
     abstractLines.forEach(line => {
       doc.text(line, marginL + 5, y)
@@ -961,9 +964,12 @@ function buildPostPDF(post) {
 
   // ── Contenuto ──
   const lines = htmlToLines(post.content || '')
+  // Reset esplicito di tutte le proprietà tipografiche prima del body
+  // (evita carry-over di charSpace/font-metrics dall'italic dell'abstract)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10.5)
   doc.setTextColor(31, 41, 55)
+  doc.setCharSpace(0)
 
   lines.forEach(line => {
     if (y > 275) { doc.addPage(); y = 20 }
@@ -971,20 +977,18 @@ function buildPostPDF(post) {
     // Separatore ---
     if (line === '---') {
       doc.setDrawColor(199, 210, 214)
+      doc.setCharSpace(0)
       doc.line(marginL, y, pageW - marginR, y)
       y += 5
       return
     }
 
-    // Rileva se è un "titolo" (testo corto preceduto da riga vuota nel contenuto Quill)
-    const isLikelyHeading = line.length < 80 && /^[A-Z\u00C0-\u024F]/.test(line) && !line.endsWith('.')
-    if (isLikelyHeading && lines.indexOf(line) > 0) {
-      // heuristica leggera — non sicura al 100%, ma migliora la leggibilità
-    }
-
+    // splitTextToSize usa le metriche del font corrente:
+    // font e size DEVONO essere già impostati correttamente prima della chiamata
     const wrapped = doc.splitTextToSize(line, contentW)
     wrapped.forEach(wl => {
       if (y > 275) { doc.addPage(); y = 20 }
+      doc.setCharSpace(0) // resetta ad ogni riga per sicurezza
       doc.text(wl, marginL, y)
       y += 6
     })
@@ -1133,6 +1137,11 @@ function buildAllPostsPDF(posts) {
 
     // ── Abstract ──
     if (post.abstract) {
+      // IMPORTANTE: impostare font/size PRIMA di splitTextToSize
+      // per usare le metriche corrette nel calcolo dei wrap
+      doc.setFont('helvetica', 'italic')
+      doc.setFontSize(10)
+      doc.setCharSpace(0)
       const abstractLines = doc.splitTextToSize(post.abstract, contentW - 8)
       const abstractH = abstractLines.length * 5.5 + 8
       if (y + abstractH > 275) { doc.addPage(); y = 20 }
@@ -1141,8 +1150,6 @@ function buildAllPostsPDF(posts) {
       doc.setDrawColor(99, 130, 144)
       doc.setLineWidth(0.8)
       doc.line(marginL, y - 4, marginL, y - 4 + abstractH)
-      doc.setFont('helvetica', 'italic')
-      doc.setFontSize(10)
       doc.setTextColor(55, 65, 81)
       abstractLines.forEach(line => {
         if (y > 270) { doc.addPage(); y = 20 }
@@ -1155,21 +1162,28 @@ function buildAllPostsPDF(posts) {
 
     // ── Contenuto ──
     const lines = htmlToLines(post.content || '')
+    // Reset esplicito di tutte le proprietà tipografiche prima del body
+    // (evita carry-over di charSpace/font-metrics dall'italic dell'abstract)
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(10.5)
     doc.setTextColor(31, 41, 55)
+    doc.setCharSpace(0)
 
     lines.forEach(line => {
       if (y > 275) { doc.addPage(); y = 20 }
       if (line === '---') {
         doc.setDrawColor(199, 210, 214)
+        doc.setCharSpace(0)
         doc.line(marginL, y, pageW - marginR, y)
         y += 5
         return
       }
+      // splitTextToSize usa le metriche del font corrente:
+      // font e size DEVONO essere già impostati correttamente prima della chiamata
       const wrapped = doc.splitTextToSize(line, contentW)
       wrapped.forEach(wl => {
         if (y > 275) { doc.addPage(); y = 20 }
+        doc.setCharSpace(0) // resetta ad ogni riga per sicurezza
         doc.text(wl, marginL, y)
         y += 6
       })
