@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/",
+    "/*.html",
+    "/admin",
+    "/admin/",
+    "/blog/",
+    "/images/*",
+    "/static/*",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/blog-sitemap.xml",
+    "/llms.txt"
+  ]
+}
