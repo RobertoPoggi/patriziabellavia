@@ -870,27 +870,28 @@ function pdfSanitize(str) {
     .replace(/[^\x00-\xFF]/g, '')
 }
 
+/**
+ * Decodifica TUTTE le entità HTML (named + numeriche decimali + hex)
+ * usando il DOM del browser — nessuna lista manuale incompleta.
+ */
+function decodeHtmlEntities(str) {
+  if (!str) return ''
+  const txt = document.createElement('textarea')
+  txt.innerHTML = str
+  return txt.value
+}
+
 function htmlToLines(html) {
   if (!html) return []
   let h = html.replace(/<br\s*\/?>/gi, '\n')
-  h = h.replace(/<\/(p|h[1-6]|li|blockquote|div|tr)>/gi, '\n')
+  h = h.replace(/<\/(p|h[1-6]|li|blockquote|div|tr|dd|dt)>/gi, '\n')
   h = h.replace(/<(hr)[^>]*>/gi, '\n---\n')
+  // Sostituisce tag strutturali di tabella con separatori leggibili
+  h = h.replace(/<\/t[dh]>/gi, ' | ')
+  h = h.replace(/<\/tr>/gi, '\n')
   h = h.replace(/<[^>]+>/g, '')
-  h = h.replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&middot;/g, '.')
-    .replace(/&hellip;/g, '...')
-    .replace(/&laquo;/g, '"')
-    .replace(/&raquo;/g, '"')
-    .replace(/&ndash;/g, '-')
-    .replace(/&mdash;/g, '--')
-    .replace(/&bull;/g, '-')
-    .replace(/&rarr;/g, '->')
-    .replace(/&times;/g, 'x')
+  // Decodifica tutte le entità HTML via DOM (copre &egrave; &agrave; &#x27; &#NNN; ecc.)
+  h = decodeHtmlEntities(h)
   h = pdfSanitize(h)
   return h.split('\n').map(l => l.trim()).filter((l, i, a) => l !== '' || a[i-1] !== '')
 }
