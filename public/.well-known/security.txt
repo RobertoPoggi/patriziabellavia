@@ -1,0 +1,6 @@
+Contact: mailto:info@patriziabellavia.it
+Contact: tel:+39-335-636-7761
+Expires: 2027-08-18T00:00:00.000Z
+Preferred-Languages: it, en
+Canonical: https://www.patriziabellavia.it/.well-known/security.txt
+Policy: https://www.patriziabellavia.it/privacy-policy

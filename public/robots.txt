@@ -149,8 +149,15 @@ Sitemap: https://www.patriziabellavia.it/sitemap.xml
 Sitemap: https://www.patriziabellavia.it/blog-sitemap.xml
 
 # ========================================
-# AI KNOWLEDGE FILES
+# AI KNOWLEDGE FILES & IDENTITY
 # ========================================
-# File ottimizzati per motori AI/LLM
-# https://www.patriziabellavia.it/llms.txt
-# https://www.patriziabellavia.it/ai.txt
+# File ottimizzati per motori AI/LLM e crawler
+# https://www.patriziabellavia.it/llms.txt     (LLM-optimized identity + Q&A)
+# https://www.patriziabellavia.it/ai.txt       (machine-readable YAML)
+# https://www.patriziabellavia.it/humans.txt   (team & credits)
+# https://www.patriziabellavia.it/.well-known/security.txt
+
+# ========================================
+# LAST UPDATED
+# ========================================
+# 2026-08-18

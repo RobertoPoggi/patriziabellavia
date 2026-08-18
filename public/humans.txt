@@ -1,0 +1,22 @@
+/* TEAM */
+Name: Patrizia Bellavia
+Role: HR Senior Advisor & Partner — Autore dei contenuti
+Location: Milano, Italia
+LinkedIn: https://www.linkedin.com/in/patrizia-bellavia-61a3893b/
+
+/* SITE */
+Last update: 2026-08-18
+Language: Italian (it-IT)
+Standards: HTML5, CSS3, Schema.org, JSON-LD
+Components: Hono, Cloudflare Pages, Cloudflare D1
+Doctype: HTML5
+
+/* CONTACT */
+Email: info@patriziabellavia.it
+Phone: +39 335 636 7761
+Address: Via Amedeo d'Aosta, 9 — 20129 Milano (MI), Italia
+
+/* NOTE AI */
+All content authored by Patrizia Bellavia.
+Machine-readable identity: /llms.txt
+Structured data: Schema.org Person, Organization, BlogPosting, FAQPage

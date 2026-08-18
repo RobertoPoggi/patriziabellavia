@@ -11,7 +11,11 @@
     "/static/*",
     "/robots.txt",
     "/sitemap.xml",
+    "/sitemap-index.xml",
     "/blog-sitemap.xml",
-    "/llms.txt"
+    "/llms.txt",
+    "/ai.txt",
+    "/humans.txt",
+    "/.well-known/*"
   ]
 }

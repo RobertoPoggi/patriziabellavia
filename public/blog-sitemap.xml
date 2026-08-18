@@ -3,151 +3,264 @@
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
+  <!-- Blog index -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <!-- Art. 1 — assessment -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/assessment-soft-skill-cosa-come-quando</loc>
-    <lastmod>2026-01-15</lastmod>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-01-15</news:publication_date>
-      <news:title>Assessment Soft Skill: come costruire un modello di competenze efficace</news:title>
+      <news:publication_date>2026-01-20</news:publication_date>
+      <news:title>Assessment Soft Skill in Azienda: Cosa, Come, Quando — Guida HR</news:title>
+      <news:keywords>assessment soft skill, valutazione competenze, HR Senior Advisor Milano</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Assessment Soft Skill — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 2 — coaching -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/coaching-executive-icf-quando-serve</loc>
-    <lastmod>2026-02-15</lastmod>
+    <lastmod>2026-02-10</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-02-15</news:publication_date>
+      <news:publication_date>2026-02-10</news:publication_date>
       <news:title>Coaching Executive ICF: quando serve davvero e come scegliere il coach</news:title>
+      <news:keywords>coaching executive ICF, ICF certified coach Milano, coaching CEO</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Coaching Executive ICF — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 3 — feedback 360 -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/feedback-360-come-implementarlo</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-03-15</news:publication_date>
-      <news:title>Analisi 360°: come funziona e perché è diversa da una normale valutazione</news:title>
+      <news:publication_date>2026-03-03</news:publication_date>
+      <news:title>Feedback 360°: come implementarlo senza errori nelle grandi aziende</news:title>
+      <news:keywords>feedback 360, analisi 360 gradi, valutazione multi-rater</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Feedback 360° — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 4 — modelli leadership -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/modelli-leadership-situazionale-transteorica</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-03-24</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-04-15</news:publication_date>
-      <news:title>Modelli di Leadership 2026: inclusione, sostenibilità e parità di genere</news:title>
+      <news:publication_date>2026-03-24</news:publication_date>
+      <news:title>Modelli di Leadership Situazionale e Transteorica: guida pratica HR</news:title>
+      <news:keywords>modelli leadership, leadership situazionale, sviluppo manageriale</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Modelli di Leadership — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 5 — succession planning -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/succession-planning-tavole-successione</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-05-15</news:publication_date>
-      <news:title>Tavola di successione: passare il testimone senza spaccare l'azienda</news:title>
+      <news:publication_date>2026-04-14</news:publication_date>
+      <news:title>Succession Planning e Tavole di Successione: guida operativa HR</news:title>
+      <news:keywords>succession planning, tavole di successione, continuità manageriale</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Succession Planning — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 6 — clima organizzativo -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/clima-organizzativo-indici-survey-azioni</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-06-15</news:publication_date>
-      <news:title>Clima organizzativo: come leggere i dati per decisioni HR che funzionano</news:title>
+      <news:publication_date>2026-05-05</news:publication_date>
+      <news:title>Clima Organizzativo: indici, survey e piani d'azione — guida HR</news:title>
+      <news:keywords>clima organizzativo, survey clima aziendale, engagement survey</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Clima Organizzativo — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 7 — performance management -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/performance-management-mbo-guida-pratica</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
     <news:news>
       <news:publication>
         <news:name>Patrizia Bellavia — Blog HR</news:name>
         <news:language>it</news:language>
       </news:publication>
-      <news:publication_date>2026-07-15</news:publication_date>
+      <news:publication_date>2026-05-26</news:publication_date>
       <news:title>Performance Management e MBO: guida pratica per aziende italiane</news:title>
+      <news:keywords>performance management, MBO aziendale, gestione obiettivi KPI</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Performance Management MBO — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 8 — engagement retention -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/engagement-retention-cosa-misurare</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-06-16</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-06-16</news:publication_date>
+      <news:title>Engagement e Retention: cosa misurare davvero in azienda — guida HR</news:title>
+      <news:keywords>engagement dipendenti, employee retention, turnover aziendale</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Engagement e Retention — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 9 — hr advisor vs director -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/hr-senior-advisor-vs-hr-director</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-07</news:publication_date>
+      <news:title>HR Senior Advisor vs HR Director: differenze e quando scegliere l'esterno</news:title>
+      <news:keywords>HR Senior Advisor esterno, HR Director vs consulente HR, consulenza HR Milano</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>HR Senior Advisor vs HR Director — Patrizia Bellavia</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 10 — onboarding -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/onboarding-soft-skill-primi-90-giorni</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-21</news:publication_date>
+      <news:title>Onboarding e Soft Skill: i primi 90 giorni che decidono tutto — guida HR</news:title>
+      <news:keywords>onboarding soft skill, primi 90 giorni manager, inserimento manageriale</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Onboarding Soft Skill — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 11 — talent review -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/talent-review-come-condurla</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04</news:publication_date>
+      <news:title>Talent Review: come condurla e cosa fare con i risultati — guida HR</news:title>
+      <news:keywords>talent review, 9-box grid, high potential management</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Talent Review — Patrizia Bellavia HR Senior Advisor</image:title>
+    </image:image>
   </url>
 
+  <!-- Art. 12 — patrizia 30 anni -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04</news:publication_date>
+      <news:title>Patrizia Bellavia: 30 anni di HR consulenziale a Milano — storia e metodo</news:title>
+      <news:keywords>Patrizia Bellavia HR Milano, HR consulenziale Milano, storia HR Senior Advisor</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Patrizia Bellavia 30 anni HR Milano — storia e metodo</image:title>
+    </image:image>
   </url>
 
 </urlset>

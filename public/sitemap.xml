@@ -5,7 +5,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.patriziabellavia.it/</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -21,154 +21,130 @@
   <!-- Chi Sono -->
   <url>
     <loc>https://www.patriziabellavia.it/chi-sono</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://www.patriziabellavia.it/images/chisiamo-foto.jpg</image:loc>
       <image:title>Patrizia Bellavia — HR Senior Advisor &amp; Partner, biografia</image:title>
     </image:image>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/chisiamo-banner.jpg</image:loc>
-      <image:title>Patrizia Bellavia — Studio HR Milano</image:title>
-    </image:image>
   </url>
 
   <!-- Servizi -->
   <url>
     <loc>https://www.patriziabellavia.it/servizi</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/aree-banner.jpg</image:loc>
-      <image:title>Servizi HR Patrizia Bellavia — Assessment, Coaching, Performance</image:title>
-    </image:image>
   </url>
 
   <!-- Case History -->
   <url>
     <loc>https://www.patriziabellavia.it/case-history</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/case1-banner.jpg</image:loc>
-      <image:title>Case History 1 — Multinazionale Telecomunicazioni: Individual Assessment Executive</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/case2-banner.jpg</image:loc>
-      <image:title>Case History 2 — Multinazionale Automotive: Analisi 360° e Change Management</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/case3-banner.jpg</image:loc>
-      <image:title>Case History 3 — Settore Assicurativo-Bancario: Executive Coaching CEO</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.patriziabellavia.it/images/case4-banner.jpg</image:loc>
-      <image:title>Case History 4 — Impiantistica: Succession Planning e Modello Soft Skill</image:title>
-    </image:image>
+    <priority>0.8</priority>
   </url>
 
   <!-- Contatti -->
   <url>
     <loc>https://www.patriziabellavia.it/contatti</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
-  <!-- Blog Index -->
+  <!-- Blog index -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog Articles (URL senza .html) -->
+  <!-- Blog articoli — lastmod = data pubblicazione effettiva -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/assessment-soft-skill-cosa-come-quando</loc>
-    <lastmod>2026-01-15</lastmod>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/coaching-executive-icf-quando-serve</loc>
-    <lastmod>2026-02-15</lastmod>
+    <lastmod>2026-02-10</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/feedback-360-come-implementarlo</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/modelli-leadership-situazionale-transteorica</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-03-24</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/succession-planning-tavole-successione</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/clima-organizzativo-indici-survey-azioni</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/performance-management-mbo-guida-pratica</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/engagement-retention-cosa-misurare</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-06-16</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/hr-senior-advisor-vs-hr-director</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/onboarding-soft-skill-primi-90-giorni</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/talent-review-come-condurla</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
 </urlset>
