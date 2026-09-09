@@ -8,10 +8,18 @@ const contact = new Hono<{ Bindings: Bindings }>()
 contact.post('/', async (c) => {
   try {
     const body = await c.req.json()
-    const { name, email, phone, message, antispam } = body
+
+    // Supporta sia naming italiano (form HTML) sia inglese (API diretta)
+    const name    = (body.name    || body.nome    || '').toString()
+    const email   = (body.email   || '').toString()
+    const phone   = (body.phone   || body.telefono || '').toString()
+    const message = (body.message || body.messaggio || '').toString()
+    const antispam = body.antispam
+    // Anti-spam quiz: campo "quiz" (frontend IT) o "answer" (API)
+    const quizAnswer = (body.quiz || body.answer || '').toString().trim()
 
     // Validazione base
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    if (!name.trim() || !email.trim() || !message.trim()) {
       return c.json({ success: false, error: 'Campi obbligatori mancanti' }, 400)
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -21,8 +29,8 @@ contact.post('/', async (c) => {
     if (antispam) {
       return c.json({ success: true }) // silenzioso
     }
-    // Anti-spam domanda (5 è la risposta giusta)
-    if (body.answer !== '5' && body.answer !== 5) {
+    // Anti-spam domanda (5 è la risposta giusta: "Quale numero è più grande, 3 o 5?")
+    if (quizAnswer !== '5') {
       return c.json({ success: false, error: 'Risposta anti-robot errata' }, 400)
     }
 
@@ -31,7 +39,7 @@ contact.post('/', async (c) => {
     // Salva in D1
     await c.env.DB.prepare(
       'INSERT INTO contacts (name, email, phone, message, ip) VALUES (?, ?, ?, ?, ?)'
-    ).bind(name.trim(), email.trim(), phone?.trim() || null, message.trim(), ip).run()
+    ).bind(name.trim(), email.trim(), phone.trim() || null, message.trim(), ip).run()
 
     // Invia email a Patrizia
     const adminEmail = c.env.ADMIN_EMAIL || 'info@patriziabellavia.it'
@@ -41,7 +49,7 @@ contact.post('/', async (c) => {
       await sendEmail({
         to: adminEmail,
         subject: `📩 Nuovo contatto da ${name.trim()} — patriziabellavia.it`,
-        html: contactEmailHtml({ name: name.trim(), email: email.trim(), phone: phone?.trim(), message: message.trim(), date: now }),
+        html: contactEmailHtml({ name: name.trim(), email: email.trim(), phone: phone.trim() || undefined, message: message.trim(), date: now }),
         replyTo: email.trim()
       }, c.env.RESEND_API_KEY)
     }
