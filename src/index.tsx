@@ -14,6 +14,18 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
+// Redirect apex → www (301 permanente)
+// Cattura tutte le richieste a patriziabellavia.it (senza www) e reindirizza
+app.use('*', async (c, next) => {
+  const host = c.req.header('host') || ''
+  if (host === 'patriziabellavia.it') {
+    const url = new URL(c.req.url)
+    url.host = 'www.patriziabellavia.it'
+    return c.redirect(url.toString(), 301)
+  }
+  await next()
+})
+
 // CORS per API
 app.use('/api/*', cors({
   origin: ['https://patriziabellavia.it', 'https://www.patriziabellavia.it', 'https://patriziabellavia.pages.dev'],
