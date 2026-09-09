@@ -63,7 +63,8 @@ function submitForm(event) {
     nome: (form.querySelector('input[name="nome"]') || {}).value || '',
     email: (form.querySelector('input[name="email"]') || {}).value || '',
     telefono: (form.querySelector('input[name="telefono"]') || {}).value || '',
-    messaggio: (form.querySelector('textarea[name="messaggio"]') || {}).value || ''
+    messaggio: (form.querySelector('textarea[name="messaggio"]') || {}).value || '',
+    quiz: (form.querySelector('input[name="quiz"]') || {}).value || ''
   };
 
   if (!data.nome.trim() || !data.email.trim() || !data.messaggio.trim()) {
