@@ -195,6 +195,13 @@ Disallow: /admin/
 Crawl-delay: 2
 
 # ========================================
+# INDEXNOW (Bing, Yandex, Seznam, Naver)
+# ========================================
+# Chiave di verifica per notifica URL in tempo reale
+# File chiave: https://www.patriziabellavia.it/3b8db770a3f1364c826b4dcab9edf411.txt
+# IndexNow-Key: 3b8db770a3f1364c826b4dcab9edf411
+
+# ========================================
 # SITEMAP
 # ========================================
 
