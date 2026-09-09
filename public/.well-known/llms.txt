@@ -1,0 +1,16 @@
+# Well-known LLMs discovery file — Patrizia Bellavia
+# Standard: https://llmstxt.org | RFC-draft well-known URI for AI discovery
+# This file enables automatic discovery by AI crawlers and LLM systems.
+
+# Primary LLM-optimized content
+llms: https://www.patriziabellavia.it/llms.txt
+
+# Extended content (full articles)
+llms-full: https://www.patriziabellavia.it/llms-full.txt
+
+# Machine-readable identity
+ai-info: https://www.patriziabellavia.it/ai.txt
+
+# Sitemap for AI indexing
+sitemap: https://www.patriziabellavia.it/sitemap-index.xml
+blog-sitemap: https://www.patriziabellavia.it/blog-sitemap.xml

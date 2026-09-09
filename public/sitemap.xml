@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <!-- Homepage -->
   <url>
     <loc>https://www.patriziabellavia.it/</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.patriziabellavia.it/images/og-image.jpg</image:loc>
       <image:title>Patrizia Bellavia — HR Senior Advisor &amp; Partner Milano</image:title>
+      <image:caption>Patrizia Bellavia, HR Senior Advisor con 30 anni di esperienza a Milano</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://www.patriziabellavia.it/images/patrizia-bellavia.png</image:loc>
       <image:title>Patrizia Bellavia — Ritratto professionale HR Senior Advisor</image:title>
+      <image:caption>Foto professionale di Patrizia Bellavia, consulente HR senior Milano</image:caption>
     </image:image>
   </url>
 
   <!-- Chi Sono -->
   <url>
     <loc>https://www.patriziabellavia.it/chi-sono</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://www.patriziabellavia.it/images/chisiamo-foto.jpg</image:loc>
-      <image:title>Patrizia Bellavia — HR Senior Advisor &amp; Partner, biografia</image:title>
+      <image:title>Patrizia Bellavia — HR Senior Advisor &amp; Partner, biografia professionale</image:title>
+      <image:caption>Patrizia Bellavia: 30 anni di consulenza HR per multinazionali e grandi aziende italiane</image:caption>
     </image:image>
   </url>
 
   <!-- Servizi -->
   <url>
     <loc>https://www.patriziabellavia.it/servizi</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -41,7 +45,7 @@
   <!-- Case History -->
   <url>
     <loc>https://www.patriziabellavia.it/case-history</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -49,7 +53,7 @@
   <!-- Contatti -->
   <url>
     <loc>https://www.patriziabellavia.it/contatti</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -57,94 +61,142 @@
   <!-- Blog index -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog articoli — lastmod = data pubblicazione effettiva -->
+  <!-- Blog articoli -->
   <url>
     <loc>https://www.patriziabellavia.it/blog/assessment-soft-skill-cosa-come-quando</loc>
-    <lastmod>2026-01-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Assessment Soft Skill in Azienda: Cosa, Come, Quando — Guida HR</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/coaching-executive-icf-quando-serve</loc>
-    <lastmod>2026-02-10</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Executive Coaching ICF: Quando Serve Davvero in Azienda</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/feedback-360-come-implementarlo</loc>
-    <lastmod>2026-03-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Analisi 360°: Come Implementarla in Azienda Senza Errori</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/modelli-leadership-situazionale-transteorica</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Modelli di Leadership: dal Situazionale al Transteorico, Guida HR</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/succession-planning-tavole-successione</loc>
-    <lastmod>2026-04-14</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Succession Planning: Come Costruire le Tavole di Successione</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/clima-organizzativo-indici-survey-azioni</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Clima Organizzativo: Indici, Survey, Azioni Concrete</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/performance-management-mbo-guida-pratica</loc>
-    <lastmod>2026-05-26</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Performance Management e MBO: Guida Pratica per HR Manager</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/engagement-retention-cosa-misurare</loc>
-    <lastmod>2026-06-16</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Engagement e Retention: Cosa Misurare Davvero per Decidere</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/hr-senior-advisor-vs-hr-director</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>HR Senior Advisor vs HR Director: Differenze e Quando Servono</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/onboarding-soft-skill-primi-90-giorni</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Onboarding Soft Skill: i Primi 90 Giorni in Azienda</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/talent-review-come-condurla</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Talent Review: Come Condurre una Riunione Efficace</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://www.patriziabellavia.it/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.75</priority>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Patrizia Bellavia: 30 Anni di HR Consulenziale a Milano</image:title>
+    </image:image>
   </url>
 
 </urlset>
