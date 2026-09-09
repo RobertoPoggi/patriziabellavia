@@ -1,3 +1,6 @@
+# Redirect apex → www (301 permanente)
+https://patriziabellavia.it/*  https://www.patriziabellavia.it/:splat  301!
+
 # Rewrite URL senza estensione → file .html (200 = rewrite senza redirect visibile)
 /chi-sono      /chi-sono.html      200
 /servizi       /servizi.html       200
