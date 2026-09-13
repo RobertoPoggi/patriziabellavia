@@ -44,8 +44,7 @@ const routes = {
     ...blogSlugs,
     '/images/*', '/static/*',
     '/blog/article', '/blog/article.html',
-    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt',
-    '/privacy-policy', '/cookie-policy'
+    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt'
   ]
 }
 fs.writeFileSync(path.join(dist, '_routes.json'), JSON.stringify(routes, null, 2))
