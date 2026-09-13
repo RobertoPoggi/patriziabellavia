@@ -3,8 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title id="page-title">Articolo — Patrizia Bellavia</title>
+  <title id="page-title">Articolo — Blog HR | Patrizia Bellavia</title>
   <meta name="robots" content="index, follow">
+  <meta id="meta-description" name="description" content="Articolo del Blog HR di Patrizia Bellavia — HR Senior Advisor a Milano. Assessment, coaching ICF, MBO, leadership e clima organizzativo.">
+  <link id="meta-canonical" rel="canonical" href="https://www.patriziabellavia.it/blog/">
+  <link id="meta-hreflang-it" rel="alternate" hreflang="it" href="https://www.patriziabellavia.it/blog/">
+  <link id="meta-hreflang-xd" rel="alternate" hreflang="x-default" href="https://www.patriziabellavia.it/blog/">
+  <!-- Open Graph -->
+  <meta id="og-title" property="og:title" content="Blog HR | Patrizia Bellavia">
+  <meta id="og-description" property="og:description" content="Articolo del Blog HR di Patrizia Bellavia — HR Senior Advisor a Milano.">
+  <meta id="og-url" property="og:url" content="https://www.patriziabellavia.it/blog/">
+  <meta id="og-image" property="og:image" content="https://www.patriziabellavia.it/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="Patrizia Bellavia — HR Senior Advisor">
+  <!-- Twitter Card -->
+  <meta id="tw-title" name="twitter:title" content="Blog HR | Patrizia Bellavia">
+  <meta id="tw-description" name="twitter:description" content="Articolo del Blog HR di Patrizia Bellavia.">
+  <meta id="tw-image" name="twitter:image" content="https://www.patriziabellavia.it/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@patriziabellavia">
   <link rel="stylesheet" href="../static/style.css?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,9 +166,36 @@
         return
       }
 
-      // Aggiorna <title> e meta
-      document.title = post.title + ' — Patrizia Bellavia'
-      document.getElementById('page-title').textContent = post.title + ' — Patrizia Bellavia'
+      // Aggiorna <title> e tutti i meta SEO dinamicamente
+      const fullTitle = post.title.length > 45
+        ? post.title.substring(0, 45).replace(/\s\S*$/, '') + '… | Patrizia Bellavia'
+        : post.title + ' | Patrizia Bellavia'
+      document.title = fullTitle
+      document.getElementById('page-title').textContent = fullTitle
+
+      const slug = new URLSearchParams(window.location.search).get('slug') || ''
+      const canonicalUrl = 'https://www.patriziabellavia.it/blog/' + slug
+      const abstract = post.abstract || post.title + ' — articolo del Blog HR di Patrizia Bellavia, HR Senior Advisor a Milano.'
+      const shortDesc = abstract.length > 155 ? abstract.substring(0, 152).replace(/\s\S*$/, '') + '...' : abstract
+      const ogImg = post.image_url
+        ? post.image_url.replace(/[?&]w=\d+/, '').replace(/[?&]q=\d+/, '') + (post.image_url.includes('?') ? '&w=1200&q=80' : '?auto=format&fit=crop&w=1200&q=80')
+        : 'https://www.patriziabellavia.it/images/og-image.jpg'
+
+      // Meta description
+      document.getElementById('meta-description').setAttribute('content', shortDesc)
+      // Canonical e hreflang
+      document.getElementById('meta-canonical').setAttribute('href', canonicalUrl)
+      document.getElementById('meta-hreflang-it').setAttribute('href', canonicalUrl)
+      document.getElementById('meta-hreflang-xd').setAttribute('href', canonicalUrl)
+      // Open Graph
+      document.getElementById('og-title').setAttribute('content', fullTitle)
+      document.getElementById('og-description').setAttribute('content', shortDesc)
+      document.getElementById('og-url').setAttribute('content', canonicalUrl)
+      document.getElementById('og-image').setAttribute('content', ogImg)
+      // Twitter
+      document.getElementById('tw-title').setAttribute('content', fullTitle)
+      document.getElementById('tw-description').setAttribute('content', shortDesc)
+      document.getElementById('tw-image').setAttribute('content', ogImg)
 
       // Popola i campi
       document.getElementById('art-category').textContent  = post.category || ''
