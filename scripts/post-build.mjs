@@ -32,26 +32,14 @@ for (const file of blogFiles) {
 }
 
 // ── 3. Scrivi _routes.json finale ───────────────────────────────────
+// Il Worker gestisce SOLO le API: tutto il resto (pagine, articoli, file di root,
+// URL legacy) è servito dagli asset statici di Pages, dove _redirects applica i 301
+// e i percorsi inesistenti ricevono un 404 corretto. Così si evita del tutto il
+// Worker sui percorsi non-API (che restituiva 500) e si resta sotto il limite di 100 regole.
 const routes = {
   version: 1,
-  include: ['/*'],
-  exclude: [
-    '/',
-    '/*.html',
-    '/admin', '/admin/',
-    '/blog', '/blog/',
-    ...rootPages.map(p => `/${p}`),
-    ...blogSlugs,
-    '/images/*', '/static/*',
-    '/blog/article', '/blog/article.html',
-    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt',
-    // URL legacy (ex WordPress) e percorsi inesistenti: devono passare dagli asset
-    // statici, dove _redirects li risolve con 301 — non dal Worker (che restituiva 500)
-    '/comments', '/comments/*',
-    '/feed', '/feed/',
-    '/wp-login.php', '/wp-admin/*', '/wp-content/*', '/wp-includes/*', '/wp-json/*',
-    '/xmlrpc.php', '/index.php', '/readme.html', '/license.txt'
-  ]
+  include: ['/api/*'],
+  exclude: []
 }
 fs.writeFileSync(path.join(dist, '_routes.json'), JSON.stringify(routes, null, 2))
 console.log('_routes.json aggiornato con', routes.exclude.length, 'esclusioni')
