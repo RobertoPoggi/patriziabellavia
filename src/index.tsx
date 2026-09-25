@@ -42,7 +42,7 @@ app.route('/api/blog', blogRoute)
 app.use('/admin/*', serveStatic({ root: './' }))
 
 // Serve tutti i file statici del sito pubblico
-app.use('/*', serveStatic({ root: './' }))
+app.use('/*', serveStatic({ root: './', onNotFound: (c) => c.text('404 \u2014 pagina non trovata', 404) }))
 
 
 // Fallback: percorsi non gestiti devono servire l'asset statico (404 corretto)
