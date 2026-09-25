@@ -44,7 +44,13 @@ const routes = {
     ...blogSlugs,
     '/images/*', '/static/*',
     '/blog/article', '/blog/article.html',
-    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt'
+    '/robots.txt', '/sitemap.xml', '/sitemap-index.xml', '/blog-sitemap.xml', '/llms.txt', '/ai.txt',
+    // URL legacy (ex WordPress) e percorsi inesistenti: devono passare dagli asset
+    // statici, dove _redirects li risolve con 301 — non dal Worker (che restituiva 500)
+    '/comments', '/comments/*',
+    '/feed', '/feed/',
+    '/wp-login.php', '/wp-admin/*', '/wp-content/*', '/wp-includes/*', '/wp-json/*',
+    '/xmlrpc.php', '/index.php', '/readme.html', '/license.txt'
   ]
 }
 fs.writeFileSync(path.join(dist, '_routes.json'), JSON.stringify(routes, null, 2))
