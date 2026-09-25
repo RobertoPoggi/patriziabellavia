@@ -18,3 +18,29 @@
 /blog/performance-management-mbo-guida-pratica         /blog/performance-management-mbo-guida-pratica.html         200
 /blog/succession-planning-tavole-successione           /blog/succession-planning-tavole-successione.html           200
 /blog/talent-review-come-condurla                      /blog/talent-review-come-condurla.html                      200
+# ── Coerenza URL: slash finale e index.html ─────────────────────────
+/index.html          /                 301
+/chi-sono/           /chi-sono         301
+/servizi/            /servizi          301
+/case-history/       /case-history     301
+/contatti/           /contatti         301
+/privacy-policy/     /privacy-policy   301
+/cookie-policy/      /cookie-policy    301
+
+# ── Pulizia URL legacy (ex WordPress: restituivano 500) ─────────────
+/comments/feed/      /                 301
+/comments/*          /                 301
+/feed/               /                 301
+/feed                /                 301
+/wp-login.php        /                 301
+/wp-admin/*          /                 301
+/wp-content/*        /                 301
+/wp-includes/*       /                 301
+/wp-json/*           /                 301
+/xmlrpc.php          /                 301
+/index.php           /                 301
+/readme.html         /                 301
+/license.txt         /                 301
+
+# ── Rotta dinamica non usata dal sito statico ───────────────────────
+/blog/article        /blog/            301
