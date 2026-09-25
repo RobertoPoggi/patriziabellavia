@@ -48,11 +48,10 @@ app.use('/admin/*', serveStatic({ root: './' }))
 
 // Fallback: percorsi non gestiti devono servire l'asset statico (404 corretto)
 // invece di sollevare un'eccezione (500). Non tocca le route esistenti.
-app.notFound((c) => {
-  const assets = c.env && c.env.ASSETS
-  if (assets && typeof assets.fetch === 'function') return assets.fetch(c.req.raw)
-  return c.text('404 — pagina non trovata', 404)
-})
+// Il Worker gestisce solo /api/* e /admin/*: tutti gli asset reali sono esclusi
+// via _routes.json e serviti direttamente da Pages. Quindi qui non serve cercare
+// file: qualunque cosa arrivi è, per definizione, un percorso inesistente.
+app.notFound((c) => c.text('404 \u2014 pagina non trovata', 404))
 
 app.onError((err, c) => {
   console.error('worker error:', err && err.message)
