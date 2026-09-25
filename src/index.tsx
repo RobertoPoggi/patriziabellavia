@@ -44,4 +44,18 @@ app.use('/admin/*', serveStatic({ root: './' }))
 // Serve tutti i file statici del sito pubblico
 app.use('/*', serveStatic({ root: './' }))
 
+
+// Fallback: percorsi non gestiti devono servire l'asset statico (404 corretto)
+// invece di sollevare un'eccezione (500). Non tocca le route esistenti.
+app.notFound((c) => {
+  const assets = c.env && c.env.ASSETS
+  if (assets && typeof assets.fetch === 'function') return assets.fetch(c.req.raw)
+  return c.text('404 — pagina non trovata', 404)
+})
+
+app.onError((err, c) => {
+  console.error('worker error:', err && err.message)
+  return c.text('500 — errore interno', 500)
+})
+
 export default app
