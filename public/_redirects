@@ -44,3 +44,6 @@
 
 # ── Rotta dinamica non usata dal sito statico ───────────────────────
 /blog/article        /blog/            301
+
+# ── 404 ─────────────────────────────────────────────────────────────
+# Cloudflare Pages serve /404.html con stato 404 sui percorsi inesistenti
