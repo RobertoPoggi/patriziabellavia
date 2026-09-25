@@ -41,8 +41,9 @@ app.route('/api/blog', blogRoute)
 // Serve il pannello admin (/admin/)
 app.use('/admin/*', serveStatic({ root: './' }))
 
-// Serve tutti i file statici del sito pubblico
-app.use('/*', serveStatic({ root: './', onNotFound: (c) => c.text('404 \u2014 pagina non trovata', 404) }))
+// Nota: gli asset reali sono serviti da Cloudflare Pages (esclusi dal Worker via
+// _routes.json). Il catch-all serveStatic non va usato: in ambiente Pages solleva
+// un'eccezione sui file inesistenti, trasformando il 404 in 500.
 
 
 // Fallback: percorsi non gestiti devono servire l'asset statico (404 corretto)
