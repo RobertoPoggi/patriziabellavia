@@ -104,11 +104,11 @@
           </div>
           <nav aria-label="Navigazione principale">
             <ul class="header-nav">
-              <li><a href="../chi-sono.html">CHI SONO</a></li>
-              <li><a href="../servizi.html">SERVIZI</a></li>
-              <li><a href="../case-history.html">CASE HISTORY</a></li>
+              <li><a href="/chi-sono">CHI SONO</a></li>
+              <li><a href="/servizi">SERVIZI</a></li>
+              <li><a href="/case-history">CASE HISTORY</a></li>
               <li class="active"><a href="./" aria-current="page">BLOG</a></li>
-              <li><a href="../contatti.html">CONTATTI</a></li>
+              <li><a href="/contatti">CONTATTI</a></li>
             </ul>
           </nav>
           <button class="mobile-menu-btn" id="hamburger" aria-label="Apri menu" aria-expanded="false">
@@ -122,11 +122,11 @@
   <div id="mobile-menu" role="dialog" aria-label="Menu mobile" aria-modal="true">
     <button class="mobile-menu-close" id="mobile-close" aria-label="Chiudi menu">&#x2715;</button>
     <ul class="mobile-nav-list">
-      <li><a href="../chi-sono.html">CHI SONO</a></li>
-      <li><a href="../servizi.html">SERVIZI</a></li>
-      <li><a href="../case-history.html">CASE HISTORY</a></li>
+      <li><a href="/chi-sono">CHI SONO</a></li>
+      <li><a href="/servizi">SERVIZI</a></li>
+      <li><a href="/case-history">CASE HISTORY</a></li>
       <li><a href="./">BLOG</a></li>
-      <li><a href="../contatti.html">CONTATTI</a></li>
+      <li><a href="/contatti">CONTATTI</a></li>
     </ul>
   </div>
 
@@ -137,7 +137,7 @@
       <div class="blog-hero-inner">
         <p class="blog-hero-eyebrow">HR SENIOR ADVISOR &amp; PARTNER — MILANO</p>
         <h1 class="blog-hero-title">Blog HR — Guide &amp; Riflessioni</h1>
-        <p class="blog-hero-lead">Articoli pratici su <strong>assessment delle soft skill</strong>, <strong>performance management e MBO</strong>, <strong>analisi 360°</strong>, <strong>executive coaching ICF</strong>, <strong>modelli di leadership</strong>, <strong>clima organizzativo</strong> e <strong>succession planning</strong>. Firmato da <a href="../chi-sono.html">Patrizia Bellavia</a>, HR Senior Advisor con 30+ anni di esperienza a Milano.</p>
+        <p class="blog-hero-lead">Articoli pratici su <strong>assessment delle soft skill</strong>, <strong>performance management e MBO</strong>, <strong>analisi 360°</strong>, <strong>executive coaching ICF</strong>, <strong>modelli di leadership</strong>, <strong>clima organizzativo</strong> e <strong>succession planning</strong>. Firmato da <a href="/chi-sono">Patrizia Bellavia</a>, HR Senior Advisor con 30+ anni di esperienza a Milano.</p>
       </div>
     </section>
 
@@ -158,6 +158,20 @@
           <!-- Skeleton loader -->
           <div id="blog-loading" style="grid-column:1/-1;text-align:center;padding:3rem 0;color:#638290;font-size:1rem;">
             Caricamento articoli…
+            <ul class="blog-static-list" style="list-style:none;padding:0;margin:1.5rem 0 0;text-align:left;display:inline-block">
+              <li><a href="/blog/assessment-soft-skill-cosa-come-quando">Assessment Soft Skill in Azienda: Cosa, Come, Quando — Guida HR</a></li>
+              <li><a href="/blog/clima-organizzativo-indici-survey-azioni">Clima Organizzativo: Indici, Survey e Piani d&#x27;Azione Concreti</a></li>
+              <li><a href="/blog/coaching-executive-icf-quando-serve">Executive Coaching ICF: Quando Serve Davvero in Azienda</a></li>
+              <li><a href="/blog/engagement-retention-cosa-misurare">Engagement e Retention: Cosa Misurare per Non Perdere i Talenti</a></li>
+              <li><a href="/blog/feedback-360-come-implementarlo">Feedback 360°: Come Implementarlo Senza Errori</a></li>
+              <li><a href="/blog/hr-senior-advisor-vs-hr-director">HR Senior Advisor vs HR Director: Differenze e Quando Conviene Ciascuno</a></li>
+              <li><a href="/blog/modelli-leadership-situazionale-transteorica">Modelli di Leadership: dal Situazionale al Transteorico, Guida HR</a></li>
+              <li><a href="/blog/onboarding-soft-skill-primi-90-giorni">Onboarding Soft Skill: i Primi 90 Giorni in Azienda</a></li>
+              <li><a href="/blog/patrizia-bellavia-30-anni-hr-consulenziale-milano">Patrizia Bellavia: 30 Anni di HR Consulenziale a Milano</a></li>
+              <li><a href="/blog/performance-management-mbo-guida-pratica">Performance Management e MBO: Guida Pratica per HR Manager</a></li>
+              <li><a href="/blog/succession-planning-tavole-successione">Succession Planning: Come Costruire le Tavole di Successione che Funzionano</a></li>
+              <li><a href="/blog/talent-review-come-condurla">Talent Review: Come Condurre una Riunione Efficace</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -178,7 +192,7 @@
       }
 
       function renderCard(p) {
-        var url = '/blog/article?slug=' + encodeURIComponent(p.slug)
+        var url = '/blog/' + encodeURIComponent(p.slug)
         var imgUrl = p.image_url
           ? (p.image_url.includes('unsplash.com') && !p.image_url.includes('&w=')
               ? p.image_url.replace(/[?&]auto=format.*$/, '') + '?auto=format&fit=crop&w=600&q=75'
@@ -240,7 +254,7 @@
         <h2>Hai un tema HR urgente?</h2>
         <p>Affrontiamolo insieme: il primo confronto è senza impegno.<br>
         Scrivimi a <a href="mailto:info@patriziabellavia.it">info@patriziabellavia.it</a> o chiama <a href="tel:+393356367761">+39 335 636 7761</a>.</p>
-        <a href="../contatti.html" class="btn-cta" aria-label="Vai al form di contatto">SCRIVIMI ORA</a>
+        <a href="/contatti" class="btn-cta" aria-label="Vai al form di contatto">SCRIVIMI ORA</a>
       </div>
     </section>
 
