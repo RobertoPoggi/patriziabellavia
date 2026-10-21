@@ -199,4 +199,37 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/gestione-diversita-generazionale-hr</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Gestione della Diversità Generazionale in Azienda: Strategie HR</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/offboarding-strategico-alumni-network-hr</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Offboarding Strategico e Alumni Network: Guida per Direzioni HR</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/upskilling-reskilling-competenze-ai</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Upskilling e Reskilling nell&#x27;Era dell&#x27;AI: Metodo e Strategie HR</image:title>
+    </image:image>
+  </url>
+
 </urlset>

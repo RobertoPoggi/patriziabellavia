@@ -63,6 +63,15 @@
 /blog/talent-review-come-condurla
   Content-Type: text/html; charset=utf-8
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/gestione-diversita-generazionale-hr
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/offboarding-strategico-alumni-network-hr
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/blog/upskilling-reskilling-competenze-ai
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 # ── SEO / AI files ─────────────────────────────────────────────
 /robots.txt

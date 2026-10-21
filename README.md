@@ -16,7 +16,7 @@ Sito web professionale per Patrizia Bellavia, HR Senior Advisor & Partner a Mila
 - Pagina Servizi HR (7 servizi, FAQPage, ItemList schema)
 - Pagina Case History (4 case study con immagini reali)
 - Pagina Contatti (ContactPage, ContactPoint schema, form con anti-bot quiz)
-- Blog con 13 articoli HR
+- Blog con 15 articoli HR (aggiunti: diversità generazionale, offboarding/alumni network, upskilling/reskilling AI; migrazione `migrations/0002_add_blog_posts_13_15.sql`)
 - Pannello Admin `/admin`
 - Privacy Policy / Cookie Policy
 

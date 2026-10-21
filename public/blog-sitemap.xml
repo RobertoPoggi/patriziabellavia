@@ -267,4 +267,67 @@
     </image:image>
   </url>
 
+  <!-- Art. 13 — gestione-diversita-generazionale-hr -->
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/gestione-diversita-generazionale-hr</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-03</news:publication_date>
+      <news:title>Gestione della Diversità Generazionale in Azienda: Strategie HR</news:title>
+      <news:keywords>diversità generazionale, Gen Z, cross-mentoring, age management, leadership HR</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Gestione della Diversità Generazionale in Azienda: Strategie HR</image:title>
+    </image:image>
+  </url>
+
+  <!-- Art. 14 — offboarding-strategico-alumni-network-hr -->
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/offboarding-strategico-alumni-network-hr</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-03</news:publication_date>
+      <news:title>Offboarding Strategico e Alumni Network: Guida per Direzioni HR</news:title>
+      <news:keywords>offboarding, alumni network, exit interview, handover, employer branding</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Offboarding Strategico e Alumni Network: Guida per Direzioni HR</image:title>
+    </image:image>
+  </url>
+
+  <!-- Art. 15 — upskilling-reskilling-competenze-ai -->
+  <url>
+    <loc>https://www.patriziabellavia.it/blog/upskilling-reskilling-competenze-ai</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <news:news>
+      <news:publication>
+        <news:name>Patrizia Bellavia — Blog HR</news:name>
+        <news:language>it</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-03</news:publication_date>
+      <news:title>Upskilling e Reskilling nell&#x27;Era dell&#x27;AI: Metodo e Strategie HR</news:title>
+      <news:keywords>upskilling, reskilling, competenze AI, internal mobility, workforce planning</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://www.patriziabellavia.it/images/og-blog.jpg</image:loc>
+      <image:title>Upskilling e Reskilling nell&#x27;Era dell&#x27;AI: Metodo e Strategie HR</image:title>
+    </image:image>
+  </url>
+
 </urlset>

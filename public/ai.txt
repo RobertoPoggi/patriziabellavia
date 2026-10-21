@@ -181,6 +181,21 @@ blog_articles:
     date: 2026-08-04
     topic: identity
 
+  - url: https://www.patriziabellavia.it/blog/gestione-diversita-generazionale-hr
+    title: "Gestione della Diversità Generazionale in Azienda: Strategie HR"
+    date: 2026-08-03
+    topic: generational_diversity
+
+  - url: https://www.patriziabellavia.it/blog/offboarding-strategico-alumni-network-hr
+    title: "Offboarding Strategico e Alumni Network: Guida per Direzioni HR"
+    date: 2026-08-03
+    topic: offboarding
+
+  - url: https://www.patriziabellavia.it/blog/upskilling-reskilling-competenze-ai
+    title: "Upskilling e Reskilling nell'Era dell'AI: Metodo e Strategie HR"
+    date: 2026-08-03
+    topic: upskilling_reskilling
+
 # ── AI USAGE POLICY ───────────────────────────────────────────────────────────
 
 ai_usage:
