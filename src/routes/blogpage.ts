@@ -173,7 +173,8 @@ function extractFigures(region: string) {
     if (m[0].toLowerCase().startsWith('<h2')) {
       h2Count++
       lastH2 = norm(m[1])
-    } else {
+    } else if (!/<img[\s>]/i.test(m[0])) {
+      // le foto del modello statico non si riusano: l'immagine e' sempre quella del box del blog
       figs.push({ html: m[0], afterH2Text: lastH2, afterH2Index: h2Count })
     }
   }
@@ -254,10 +255,30 @@ function updateJsonLd(page: string, faq: { name: string; text: string }[], modif
 
 // ── Composizione pagina ──────────────────────────────────────────────────────
 
+type PostMeta = { title: string | null; image_url: string | null; image_position: string | null }
+
+// Immagine di apertura: sempre quella del box di presentazione del blog (campo image_url del DB)
+function buildHero(meta: PostMeta, oldCaption: string): string {
+  const raw = (meta.image_url || '').trim()
+  if (!/^https:\/\/[^\s"'<>]+$/i.test(raw)) return ''
+  const src = raw.includes('images.unsplash.com')
+    ? raw.replace(/[?&]auto=format.*$/, '').replace(/\?.*$/, '') + '?auto=format&fit=crop&w=1200&q=78'
+    : raw
+  const pos = /^[a-z% 0-9]{3,30}$/i.test(meta.image_position || '') ? (meta.image_position as string) : 'center'
+  const alt = escapeHtml(plain(meta.title || 'Immagine di copertina dell\'articolo'))
+  return (
+    '<figure class="art-fig art-hero" style="margin:2rem 0 2.2rem;text-align:center;">\n' +
+    `  <img src="${escapeHtml(src)}" alt="${alt}" width="1200" height="675" loading="eager" fetchpriority="high" decoding="async" ` +
+    `style="width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:${escapeHtml(pos)};display:block;border-radius:10px;">\n` +
+    (oldCaption ? `  <figcaption style="font-size:.82rem;color:#6b7a85;margin-top:.65rem;line-height:1.5;">${oldCaption}</figcaption>\n` : '') +
+    '</figure>\n\n'
+  )
+}
+
 const TOC_RE = /<nav class="article-toc"[\s\S]*?<\/nav>/
 const RELATED = '<section class="article-related">'
 
-export async function composeArticle(template: string, content: string, updatedAt: string | null) {
+export async function composeArticle(template: string, content: string, updatedAt: string | null, meta: PostMeta) {
   const tocMatch = template.match(TOC_RE)
   const relatedAt = template.indexOf(RELATED)
   if (!tocMatch || tocMatch.index === undefined || relatedAt < 0) return null
@@ -283,8 +304,21 @@ export async function composeArticle(template: string, content: string, updatedA
     if (!isNaN(d.getTime())) modifiedIso = d.toISOString()
   }
 
-  let page =
-    template.slice(0, tocMatch.index) + toc + withFigs + '\n    ' + template.slice(relatedAt)
+  // testata del modello: tolgo la vecchia foto d'archivio (se c'e') e inserisco quella del box
+  let head = template.slice(0, tocMatch.index)
+  let oldCaption = ''
+  const h1At = head.search(/<h1[\s>]/i)
+  if (h1At >= 0) {
+    const tail = head.slice(h1At).replace(/<figure[\s\S]*?<\/figure>\s*/gi, (fig) => {
+      const cap = fig.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i)
+      if (cap && !oldCaption) oldCaption = cap[1].trim()
+      return ''
+    })
+    head = head.slice(0, h1At) + tail
+  }
+  const hero = buildHero(meta, oldCaption)
+
+  let page = head + hero + toc + withFigs + '\n    ' + template.slice(relatedAt)
 
   page = updateJsonLd(page, buildFaq(withIds.html), modifiedIso)
   if (modifiedIso) {
@@ -334,10 +368,10 @@ blogPage.get('/:slug', async (c) => {
 
   try {
     const post = await c.env.DB.prepare(
-      'SELECT content, published, updated_at FROM blog_posts WHERE slug = ?'
+      'SELECT title, content, image_url, image_position, published, updated_at FROM blog_posts WHERE slug = ?'
     )
       .bind(slug)
-      .first<{ content: string | null; published: number; updated_at: string | null }>()
+      .first<{ title: string | null; content: string | null; image_url: string | null; image_position: string | null; published: number; updated_at: string | null }>()
 
     if (!post) return passthrough()
 
@@ -346,7 +380,7 @@ blogPage.get('/:slug', async (c) => {
 
     if (!post.content || !post.content.trim()) return passthrough()
 
-    const composed = await composeArticle(templateHtml, post.content, post.updated_at)
+    const composed = await composeArticle(templateHtml, post.content, post.updated_at, post)
     if (!composed) return passthrough()
 
     const headers = new Headers(tpl.headers)

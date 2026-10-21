@@ -50,8 +50,9 @@ Sito web professionale per Patrizia Bellavia, HR Senior Advisor & Partner a Mila
 - L'HTML dell'admin viene sanificato (whitelist tag, `&lt;p&gt;` ripristinato, `&nbsp;` e paragrafi vuoti rimossi, link `javascript:` eliminati, link esterni con `rel=noopener`).
 - Fallback: se il `content` e' vuoto o la composizione fallisce, viene servita la pagina statica. Articolo con `published=0` -> 404.
 - `_routes.json` (generato da `scripts/post-build.mjs`) invia al Worker `/api/*` e gli articoli `/blog/<slug>`; indice blog, immagini e sitemap restano statici.
+- Immagine di apertura: sempre quella del box del blog (`image_url` / `image_position` del DB), generata dal Worker; le foto d'archivio nel modello statico non vengono usate. I diagrammi SVG nel corpo restano.
 - Header di debug: `X-Article-Source: db`.
-- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live).
+- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live), `0005` (immagini dei box uniche: nessun duplicato).
 - Nuovo articolo creato dall'admin: serve anche un file template `public/blog/<slug>.html` (copia di un articolo esistente) + regola in `_redirects`.
 
 ## Stack tecnologico
