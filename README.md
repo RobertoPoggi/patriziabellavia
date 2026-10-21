@@ -42,6 +42,18 @@ Sito web professionale per Patrizia Bellavia, HR Senior Advisor & Partner a Mila
 - `post-build.mjs` → URL clean senza estensione, _routes.json (34 esclusioni)
 - Immagini case-history reali (case1–4 banner)
 
+## Pubblicazione articoli del blog (SSR dal DB)
+
+- La pagina `/blog/<slug>` e' una **pagina statica usata come template**: il Worker (`src/routes/blogpage.ts`) legge il campo `content` da D1 (`blog_posts`) e lo inserisce nell'HTML gia' pronto nella risposta (SEO intatta, nessun JS lato client).
+- Titolo, H1, meta, canonical e Open Graph restano quelli SEO della pagina statica; il testo viene dal DB (modificabile da `/admin/`).
+- Il Worker rigenera l'indice (TOC) dagli H2, mantiene le immagini/figure del template, aggiorna il JSON-LD FAQPage e `dateModified`.
+- L'HTML dell'admin viene sanificato (whitelist tag, `&lt;p&gt;` ripristinato, `&nbsp;` e paragrafi vuoti rimossi, link `javascript:` eliminati, link esterni con `rel=noopener`).
+- Fallback: se il `content` e' vuoto o la composizione fallisce, viene servita la pagina statica. Articolo con `published=0` -> 404.
+- `_routes.json` (generato da `scripts/post-build.mjs`) invia al Worker `/api/*` e gli articoli `/blog/<slug>`; indice blog, immagini e sitemap restano statici.
+- Header di debug: `X-Article-Source: db`.
+- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live).
+- Nuovo articolo creato dall'admin: serve anche un file template `public/blog/<slug>.html` (copia di un articolo esistente) + regola in `_redirects`.
+
 ## Stack tecnologico
 - Hono 4.x + TypeScript
 - Cloudflare Pages (D1, Workers)

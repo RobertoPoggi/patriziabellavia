@@ -38,7 +38,7 @@ for (const file of blogFiles) {
 // Worker sui percorsi non-API (che restituiva 500) e si resta sotto il limite di 100 regole.
 const routes = {
   version: 1,
-  include: ['/api/*'],
+  include: ['/api/*', ...blogSlugs],
   exclude: []
 }
 fs.writeFileSync(path.join(dist, '_routes.json'), JSON.stringify(routes, null, 2))

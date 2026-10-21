@@ -4,9 +4,11 @@ import { serveStatic } from 'hono/cloudflare-workers'
 import contactRoute from './routes/contact'
 import adminRoute from './routes/admin'
 import blogRoute from './routes/blog'
+import blogPage from './routes/blogpage'
 
 type Bindings = {
   DB: D1Database
+  ASSETS: Fetcher
   JWT_SECRET: string
   RESEND_API_KEY: string
   ADMIN_EMAIL: string
@@ -37,6 +39,9 @@ app.use('/api/*', cors({
 app.route('/api/contact', contactRoute)
 app.route('/api/admin', adminRoute)
 app.route('/api/blog', blogRoute)
+
+// Pagine articolo: template statico + testo dal DB (SSR, SEO intatta)
+app.route('/blog', blogPage)
 
 // Serve il pannello admin (/admin/)
 app.use('/admin/*', serveStatic({ root: './' }))

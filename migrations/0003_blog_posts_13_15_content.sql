@@ -1,5 +1,5 @@
 -- Aggiunge il corpo (campo content) ai 3 articoli 13-15, inseriti senza contenuto dalla migrazione 0002.
--- Idempotente: si puo' rieseguire senza effetti collaterali.
+-- Sicura da rieseguire: aggiorna SOLO se content e' vuoto, quindi non sovrascrive mai modifiche fatte da /admin.
 
 UPDATE blog_posts SET content='<p>La convivenza tra chi è cresciuto con la cultura del dovere e della presenza fisica e chi richiede trasparenza, flessibilità e impatto etico è oggi una delle sfide HR più complesse. Con oltre 30 anni di esperienza come HR Senior Advisor a Milano (<a href="/chi-sono">Patrizia Bellavia</a>, Via Amedeo d''Aosta 9, tel. <a href="tel:+393356367761">335 636 7761</a>), accompagno le direzioni HR nell''armonizzare culture aziendali complesse, prevenendo il logorio dei rapporti e valorizzando i punti di forza di ciascuna fascia anagrafica.</p>
 <h2 id="mappa">La mappa dei driver motivazionali a confronto</h2>
@@ -26,7 +26,7 @@ UPDATE blog_posts SET content='<p>La convivenza tra chi è cresciuto con la cult
 <h3>Come personalizzare il welfare per fasce d''età diverse?</h3>
 <p>Adottando una piattaforma di flexible benefit modulabile che permetta a ciascun dipendente di allocare il budget tra salute, istruzione figli, previdenza o tempo libero.</p>
 <h3>Come misurare l''inclusione intergenerazionale?</h3>
-<p>Inserendo nella survey di clima organizzativo item specifici sulla cooperazione intergenerazionale e analizzando i dati di retention disaggregati per cluster anagrafico.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='gestione-diversita-generazionale-hr';
+<p>Inserendo nella survey di clima organizzativo item specifici sulla cooperazione intergenerazionale e analizzando i dati di retention disaggregati per cluster anagrafico.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='gestione-diversita-generazionale-hr' AND (content IS NULL OR TRIM(content)='');
 
 UPDATE blog_posts SET content='<p>Mentre i processi di <a href="/blog/onboarding-soft-skill-primi-90-giorni">onboarding</a> ricevono attenzioni e budget costanti, l''offboarding viene ancora trattato da molte aziende come una mera pratica burocratica o, peggio, come un tradimento personale. In oltre 30 anni di attività come HR Senior Advisor (<a href="/chi-sono">Patrizia Bellavia</a>, Via Amedeo d''Aosta 9, Milano, tel. <a href="tel:+393356367761">335 636 7761</a>), ho aiutato decine di direzioni del personale a trasformare l''uscita dei collaboratori in una leva di reputazione, benchmarking e nuove opportunità di business.</p>
 <h2 id="valore">Perché l''offboarding incide sull''Employer Brand</h2>
@@ -52,7 +52,7 @@ UPDATE blog_posts SET content='<p>Mentre i processi di <a href="/blog/onboarding
 <h3>Cosa sono i ''Boomerang Employees''?</h3>
 <p>Sono dipendenti che lasciano l''azienda per fare esperienza altrove e vengono successivamente riassunti in ruoli di maggiore responsabilità, con tempi di inserimento quasi nulli e know-how potenziato.</p>
 <h3>Come si gestisce la riservatezza delle informazioni durante l''offboarding?</h3>
-<p>Con un protocollo rigoroso di passaggio di consegne (knowledge handover), accordi di non concorrenza/confidenzialità chiari e revoca programmata degli accessi digitali.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='offboarding-strategico-alumni-network-hr';
+<p>Con un protocollo rigoroso di passaggio di consegne (knowledge handover), accordi di non concorrenza/confidenzialità chiari e revoca programmata degli accessi digitali.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='offboarding-strategico-alumni-network-hr' AND (content IS NULL OR TRIM(content)='');
 
 UPDATE blog_posts SET content='<p>Con il ciclo di vita medio delle competenze tecniche sceso sotto i 3 anni, l''HR Director non può più limitarsi a colmare i vuoti d''organico con il recruiting esterno. In oltre trent''anni di consulenza HR a Milano (<a href="/chi-sono">Patrizia Bellavia</a>, HR Senior Advisor &amp; Partner, Via Amedeo d''Aosta 9, 20129 Milano, tel. <a href="tel:+393356367761">335 636 7761</a>), ho verificato sul campo che le aziende capaci di anticipare la trasformazione dei ruoli ottengono un risparmio fino al 50% sui costi di talent acquisition e azzerano il disingaggio tipico delle ristrutturazioni.</p>
 <h2 id="dilemma">Il dilemma: Comprare o Coltivare le competenze?</h2>
@@ -84,4 +84,4 @@ UPDATE blog_posts SET content='<p>Con il ciclo di vita medio delle competenze te
 <h3>Come si convincono i collaboratori a riqualificarsi?</h3>
 <p>Coinvolgendoli precocemente, offrendo trasparenza sul futuro dei ruoli e affiancando bilanci di competenze individuali a percorsi di mentoring protetti.</p>
 <h3>Quali KPI indicano il successo del programma?</h3>
-<p>Internal Mobility Rate (&gt;35%), Time-to-Productivity post-formazione (&lt;90 giorni) e retention a 24 mesi dei dipendenti riqualificati.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='upskilling-reskilling-competenze-ai';
+<p>Internal Mobility Rate (&gt;35%), Time-to-Productivity post-formazione (&lt;90 giorni) e retention a 24 mesi dei dipendenti riqualificati.</p>', updated_at=CURRENT_TIMESTAMP WHERE slug='upskilling-reskilling-competenze-ai' AND (content IS NULL OR TRIM(content)='');
