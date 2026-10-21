@@ -264,12 +264,13 @@ function buildHero(meta: PostMeta, oldCaption: string): string {
   const src = raw.includes('images.unsplash.com')
     ? raw.replace(/[?&]auto=format.*$/, '').replace(/\?.*$/, '') + '?auto=format&fit=crop&w=1200&q=78'
     : raw
-  const pos = /^[a-z% 0-9]{3,30}$/i.test(meta.image_position || '') ? (meta.image_position as string) : 'center'
   const alt = escapeHtml(plain(meta.title || 'Immagine di copertina dell\'articolo'))
+  // Nessun ritaglio: la foto resta intera (verticale o orizzontale), centrata, con altezza massima.
+  // Le foto verticali (ritratti) risultano strette e centrali, quelle orizzontali quasi a tutta larghezza.
   return (
     '<figure class="art-fig art-hero" style="margin:2rem 0 2.2rem;text-align:center;">\n' +
-    `  <img src="${escapeHtml(src)}" alt="${alt}" width="1200" height="675" loading="eager" fetchpriority="high" decoding="async" ` +
-    `style="width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:${escapeHtml(pos)};display:block;border-radius:10px;">\n` +
+    `  <img src="${escapeHtml(src)}" alt="${alt}" loading="eager" fetchpriority="high" decoding="async" ` +
+    'style="display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:480px;border-radius:10px;">\n' +
     (oldCaption ? `  <figcaption style="font-size:.82rem;color:#6b7a85;margin-top:.65rem;line-height:1.5;">${oldCaption}</figcaption>\n` : '') +
     '</figure>\n\n'
   )
