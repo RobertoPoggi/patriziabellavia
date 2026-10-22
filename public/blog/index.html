@@ -90,13 +90,6 @@
     ]
   }
   </script>
-<style>
-.blog-card-img{position:relative;overflow:hidden}
-.blog-card-img.is-portrait{background-image:none!important;background-color:#dfe6ea}
-.blog-card-img.is-portrait::before,.blog-card-img.is-portrait::after{content:"";position:absolute}
-.blog-card-img.is-portrait::before{inset:-24px;background:var(--img) center/cover no-repeat;filter:blur(20px) saturate(1.1)}
-.blog-card-img.is-portrait::after{inset:0;background:var(--img) center/contain no-repeat}
-</style>
 </head>
 <body id="top">
 
@@ -219,7 +212,7 @@
 
         return '<article class="blog-card-new">'
           + '<a href="' + url + '" class="blog-card-img-link" aria-label="Leggi: ' + title + '">'
-          + '<div class="blog-card-img" data-img="' + imgUrl + '" style="--img:url(\'' + imgUrl + '\');background-image:url(\'' + imgUrl + '\');background-position:' + imgPos + ';" role="img" aria-label="' + title + '"></div>'
+          + '<div class="blog-card-img" style="background-image:url(\'' + imgUrl + '\');background-position:' + imgPos + ';" role="img" aria-label="' + title + '"></div>'
           + '<div class="blog-card-category">' + cat + '</div>'
           + '</a>'
           + '<div class="blog-card-body">'
@@ -243,15 +236,6 @@
               return
             }
             grid.innerHTML = posts.map(renderCard).join('')
-
-            // Foto verticali (ritratti): mostrate intere e centrate, con sfondo sfocato, invece di essere ritagliate
-            grid.querySelectorAll('.blog-card-img[data-img]').forEach(function (el) {
-              var im = new Image()
-              im.onload = function () {
-                if (im.naturalHeight > im.naturalWidth * 1.1) el.classList.add('is-portrait')
-              }
-              im.src = el.getAttribute('data-img')
-            })
             if (typeof window.initAnimations === 'function') window.initAnimations()
           })
           .catch(function() {

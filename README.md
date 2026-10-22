@@ -50,9 +50,9 @@ Sito web professionale per Patrizia Bellavia, HR Senior Advisor & Partner a Mila
 - L'HTML dell'admin viene sanificato (whitelist tag, `&lt;p&gt;` ripristinato, `&nbsp;` e paragrafi vuoti rimossi, link `javascript:` eliminati, link esterni con `rel=noopener`).
 - Fallback: se il `content` e' vuoto o la composizione fallisce, viene servita la pagina statica. Articolo con `published=0` -> 404.
 - `_routes.json` (generato da `scripts/post-build.mjs`) invia al Worker `/api/*` e gli articoli `/blog/<slug>`; indice blog, immagini e sitemap restano statici.
-- Immagine di apertura: sempre quella del box del blog (`image_url` del DB), mostrata INTERA (nessun ritaglio, centrata, altezza max 480px: i ritratti verticali restano stretti e centrali); generata dal Worker. Le foto d'archivio nel modello statico non vengono usate; i diagrammi SVG nel corpo restano.
+- Immagine di apertura: sempre quella del box del blog (`image_url` e `image_position` del DB), a tutta larghezza in formato 3:2 con la stessa centratura del box (nessuno sfondo sfocato). Per i ritratti verticali `image_position` (es. `center 25%`) decide quale parte mostrare: va impostata in modo che il volto resti intero. Le foto d'archivio nel modello statico non vengono usate; i diagrammi SVG nel corpo restano.
 - Header di debug: `X-Article-Source: db`.
-- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live), `0005` (immagini dei box uniche: nessun duplicato).
+- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live), `0005` (immagini dei box uniche: nessun duplicato), `0006` (centratura dei ritratti verticali).
 - Nuovo articolo creato dall'admin: serve anche un file template `public/blog/<slug>.html` (copia di un articolo esistente) + regola in `_redirects`.
 
 ## Stack tecnologico
