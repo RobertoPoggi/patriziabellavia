@@ -50,9 +50,9 @@ Sito web professionale per Patrizia Bellavia, HR Senior Advisor & Partner a Mila
 - L'HTML dell'admin viene sanificato (whitelist tag, `&lt;p&gt;` ripristinato, `&nbsp;` e paragrafi vuoti rimossi, link `javascript:` eliminati, link esterni con `rel=noopener`).
 - Fallback: se il `content` e' vuoto o la composizione fallisce, viene servita la pagina statica. Articolo con `published=0` -> 404.
 - `_routes.json` (generato da `scripts/post-build.mjs`) invia al Worker `/api/*` e gli articoli `/blog/<slug>`; indice blog, immagini e sitemap restano statici.
-- Immagine di apertura: sempre quella del box del blog (`image_url` e `image_position` del DB), a tutta larghezza in formato 3:2 con la stessa centratura del box (nessuno sfondo sfocato). Per i ritratti verticali `image_position` (es. `center 25%`) decide quale parte mostrare: va impostata in modo che il volto resti intero. Le foto d'archivio nel modello statico non vengono usate; i diagrammi SVG nel corpo restano.
+- Immagine di apertura: sempre quella del box del blog (`image_url` e `image_position` del DB), a tutta larghezza in formato 3:2 con la stessa centratura del box (nessuno sfondo sfocato). Usare solo foto orizzontali (16:9 / 3:2): i ritratti verticali verrebbero tagliati sia nel box (392x240) sia nell'articolo. Le foto d'archivio nel modello statico non vengono usate; i diagrammi SVG nel corpo restano.
 - Header di debug: `X-Article-Source: db`.
-- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live), `0005` (immagini dei box uniche: nessun duplicato), `0006` (centratura dei ritratti verticali).
+- Migrazioni: `0002` (articoli 13-15), `0003` (contenuto articoli 13-15), `0004` (titoli SEO + riallineo `assessment-soft-skill` e `talent-review` alla pagina live), `0005` (immagini dei box uniche: nessun duplicato), `0006` (centratura ritratti, superata da 0007), `0007` (6 foto verticali sostituite con foto orizzontali pertinenti; resta tutto unico).
 - Nuovo articolo creato dall'admin: serve anche un file template `public/blog/<slug>.html` (copia di un articolo esistente) + regola in `_redirects`.
 
 ## Stack tecnologico
