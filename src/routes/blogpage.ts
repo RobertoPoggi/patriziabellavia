@@ -260,21 +260,30 @@ type PostMeta = { title: string | null; image_url: string | null; image_position
 // Immagine di apertura: sempre quella del box di presentazione del blog (campo image_url del DB)
 function buildHero(meta: PostMeta, oldCaption: string): string {
   const raw = (meta.image_url || '').trim()
-  if (!/^https:\/\/[^\s"'<>]+$/i.test(raw)) return ''
+  if (!/^https:\/\/[^\s"'<>()\\]+$/i.test(raw)) return ''
   const src = raw.includes('images.unsplash.com')
     ? raw.replace(/[?&]auto=format.*$/, '').replace(/\?.*$/, '') + '?auto=format&fit=crop&w=1200&q=78'
     : raw
   const alt = escapeHtml(plain(meta.title || 'Immagine di copertina dell\'articolo'))
   // Nessun ritaglio: la foto resta intera (verticale o orizzontale), centrata, con altezza massima.
   // Le foto verticali (ritratti) risultano strette e centrali, quelle orizzontali quasi a tutta larghezza.
+  const safeSrc = escapeHtml(src)
   return (
+    HERO_CSS +
     '<figure class="art-fig art-hero" style="margin:2rem 0 2.2rem;text-align:center;">\n' +
-    `  <img src="${escapeHtml(src)}" alt="${alt}" loading="eager" fetchpriority="high" decoding="async" ` +
-    'style="display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:480px;border-radius:10px;">\n' +
+    `  <div class="art-hero-frame" style="--hero:url('${safeSrc}');">` +
+    `<img src="${safeSrc}" alt="${alt}" loading="eager" fetchpriority="high" decoding="async"></div>\n` +
     (oldCaption ? `  <figcaption style="font-size:.82rem;color:#6b7a85;margin-top:.65rem;line-height:1.5;">${oldCaption}</figcaption>\n` : '') +
     '</figure>\n\n'
   )
 }
+
+const HERO_CSS =
+  '<style id="art-hero-css">' +
+  '.art-hero-frame{position:relative;overflow:hidden;border-radius:10px;background:#dfe6ea;line-height:0}' +
+  '.art-hero-frame::before{content:"";position:absolute;inset:-24px;background:var(--hero) center/cover no-repeat;filter:blur(22px) saturate(1.1)}' +
+  '.art-hero-frame img{position:relative;display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:520px}' +
+  '</style>'
 
 const TOC_RE = /<nav class="article-toc"[\s\S]*?<\/nav>/
 const RELATED = '<section class="article-related">'
