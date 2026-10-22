@@ -6,72 +6,72 @@
 # ── Pagine root senza estensione → Content-Type HTML ─────────
 /chi-sono
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /servizi
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /case-history
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /contatti
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /blog
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /privacy-policy
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
 /cookie-policy
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
 
 # ── Articoli blog senza estensione ────────────────────────────
 /blog/assessment-soft-skill-cosa-come-quando
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/clima-organizzativo-indici-survey-azioni
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/coaching-executive-icf-quando-serve
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/engagement-retention-cosa-misurare
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/feedback-360-come-implementarlo
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/hr-senior-advisor-vs-hr-director
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/modelli-leadership-situazionale-transteorica
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/onboarding-soft-skill-primi-90-giorni
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/patrizia-bellavia-30-anni-hr-consulenziale-milano
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/performance-management-mbo-guida-pratica
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/succession-planning-tavole-successione
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/talent-review-come-condurla
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/gestione-diversita-generazionale-hr
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/offboarding-strategico-alumni-network-hr
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 /blog/upskilling-reskilling-competenze-ai
   Content-Type: text/html; charset=utf-8
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 # ── SEO / AI files ─────────────────────────────────────────────
 /robots.txt
